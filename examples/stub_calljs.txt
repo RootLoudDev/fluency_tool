@@ -1,0 +1,9 @@
+This is just a fake script used to demo CALLJS.
+You would replace this with a server script  that output the CALLJS and SUCCESS lines below.
+
+The following line will be executed by the Applet using JavaScript.
+CALLJS alert('Server says Hello using CALLJS');
+
+SUCCESS demonstrate CALLJS
+
+(C) 2006 Mobileer, Inc.

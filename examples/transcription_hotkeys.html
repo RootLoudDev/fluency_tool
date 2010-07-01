@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/sdkDoc.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../style_sdk.css" rel="stylesheet" type="text/css"/>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>ListenUp Transcription with Hot Keys</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+<meta name="KeyWords" content="Java, audio, input, output, JavaSonics, recording, plugin, API">
+<meta name="Description" content="Record voice messages and upload them to the web.">
+<style type="text/css">
+<!--
+.style1 {
+	color: #FF0099
+}
+-->
+</style>
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<center>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+      <td width="200" bgcolor="#DCE2E7"><center>
+          <font color="#FF9933" size="+2"><strong><em><a href="http://www.javasonics.com/" target="_top"> <font face="Verdana, Arial, Helvetica, sans-serif">JavaSonics</font></a></em> </strong></font>
+        </center></td>
+      <td width="60" bgcolor="#DCE2E7"><center>
+          <h1>SDK</h1>
+        </center></td>
+      <td bgcolor="#DCE2E7"><center>
+          <h1><!-- InstanceBeginEditable name="mainHeading" -->ListenUp Example <!-- InstanceEndEditable --></h1>
+        </center></td>
+    </tr>
+  </table>
+</center>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td valign="top" width="100" bgcolor="#D7E5F2"><br>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/" target="_top">Web&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../index.html" target="_top">SDK&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../docs/index.html" target="_top">Docs</a></p>
+      <p><a class="sidenavbar" href="../php_test/index.html" target="_top">Test&nbsp;PHP</a></p>
+      <p><a class="sidenavbar" href="../asp_test/index.html" target="_top">Test&nbsp;ASP</a></p>
+      <p><a class="sidenavbar" href="../asp_net_test/index.html" target="_top">Test&nbsp;ASP.NET</a></p>
+      <p><a class="sidenavbar" href="index.html" target="_top">Examples</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/demos/" target="_top">Demos</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/downloads/" target="_top">Download</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/sales/" target="_top">Purchase</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/support/" target="_top">Support</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/forum/" target="_top">Forum</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/login/" target="_top">Login</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/contacts.php" target="_top">Contact&nbsp;Us</a></p>
+      <p><a class="sidenavbar" href="http://www.mobileer.com/" target="_blank">Company</a></p>
+      <br>
+    </td>
+    <td valign="top"><div class="primary"> <!-- InstanceBeginEditable name="primaryContent" -->
+        <h2> Transcription with Hot Keys</h2>
+        <h2 align="center" class="style1">Note: HotKey Feature Requires Windows OS and Sun Java! </h2>
+        Use this Applet parameter to add &quot;Hot Keys&quot; support:
+        <blockquote>
+          <pre>&lt;param name=&quot;playHotKey&quot; value=&quot;p+alt+shift&quot;&gt;<br>&lt;param name=&quot;recordHotKey&quot; value=&quot;r+alt+shift&quot;&gt;<br>&lt;param name=&quot;pauseHotKey&quot; value=&quot;a+alt+shift&quot;&gt;<br>&lt;param name=&quot;stopHotKey&quot; value=&quot;s+alt+shift&quot;&gt;<br>&lt;param name=&quot;rewindHotKey&quot; value=&quot;w+alt+shift&quot;&gt;<br>&lt;param name=&quot;forwardHotKey&quot; value=&quot;f+alt+shift&quot;&gt;<br>&lt;param name=&quot;toEndHotKey&quot; value=&quot;e+alt+shift&quot;&gt;<br>&lt;param name=&quot;toBeginHotKey&quot; value=&quot;b+alt+shift&quot;&gt;</pre>
+        </blockquote>
+        <p>Also use the &quot;ListenUpTranscriber.jar&quot; in the ARCHIVES list in the Applet tag instead of &quot;JavaSonicsListenUp.jar&quot;.</p>
+        <p><strong>Please note that use of these transcription features requires a special license. Please <a href="http://www.javasonics.com/contacts.html">contact us</a> for details.</strong></p>
+        <h2>You Decide which Hot Keys can Control ListenUp </h2>
+        <p> Hot Keys can be set to any combination using Applet parameters. For this test hold down ALT and SHIFT modifier keys then press the letter key.</p>
+        <ul>
+          <li>ALT+SHIFT + R = <strong>R</strong>ecord</li>
+          <li>ALT+SHIFT + P = <strong>P</strong>lay</li>
+          <li>ALT+SHIFT + A = p<strong>A</strong>use</li>
+          <li>ALT+SHIFT + S = <strong>S</strong>top</li>
+          <li>ALT+SHIFT + W = re<strong>W</strong>ind</li>
+          <li>ALT+SHIFT + F = <strong>F</strong>ast Forward </li>
+          <li>ALT+SHIFT + E = to <strong>E</strong>nd</li>
+          <li>ALT+SHIFT + B = to <strong>B</strong>egin </li>
+        </ul>
+        <p>Try this:</p>
+        <ol>
+          <li>First press ALT+SHIFT+R to start <strong>recording</strong>.</li>
+          <li>Press ALT+SHIFT+S to <strong>stop</strong>.</li>
+          <li>Press ALT+SHIFT+P to <strong>play back</strong>.</li>
+          <li>Press ALT+SHIFT+W to <strong>rewind</strong>.</li>
+          <li>Try the other hot keys..</li>
+        </ol>
+        
+        <p>
+          <applet
+    CODE="com.softsynth.javasonics.recplay.RecorderApplet"
+    CODEBASE="../codebase"
+    ARCHIVE="ListenUpTranscriber.jar"
+    NAME="JavaSonicRecorderUploader"
+    WIDTH="591" HEIGHT="100">
+            <!--- Enable Transcription Features. -->
+            <param name="transcription" value="yes">
+            <param name="autoBackStep" value="3.0">
+            <!--- Define the Hot Keys -->
+            <param name="playHotKey" value="p+alt+shift">
+            <param name="recordHotKey" value="r+alt+shift">
+            <param name="pauseHotKey" value="a+alt+shift">
+            <param name="stopHotKey" value="s+alt+shift">
+            <param name="rewindHotKey" value="w+alt+shift">
+            <param name="forwardHotKey" value="f+alt+shift">
+            <param name="toEndHotKey" value="e+alt+shift">
+            <param name="toBeginHotKey" value="b+alt+shift">
+            
+            <param name="frameRate" value="22050.0">
+            <param name="editable" value="yes">
+          </applet>
+        </p>
+        <p>See <a href="index.html">more examples</a>.</p>
+        <p></p>
+ 
+    <!-- InstanceEndEditable --> </div></td>
+  </tr>
+</table>
+<br>
+<div align="left"> &copy; 2001-2006 <a href="http://www.mobileer.com/">Mobileer, Inc.</a> &nbsp;&nbsp;This page is from the ListenUp&nbsp;SDK. You can download the SDK from <a href="http://www.javasonics.com/downloads/">here</a>.</div>
+</body>
+<!-- InstanceEnd --></html>

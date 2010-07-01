@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/sdkDoc.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../style_sdk.css" rel="stylesheet" type="text/css"/>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Test ListenUp - Modify Existing Recording</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+	<meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+	<meta name="KeyWords" content="Java, audio, input, output, JavaSonics, recording, plugin, API">
+	<meta name="Description" content="Java API for audio I/O.">
+    
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<center>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+      <td width="200" bgcolor="#DCE2E7"><center>
+          <font color="#FF9933" size="+2"><strong><em><a href="http://www.javasonics.com/" target="_top"> <font face="Verdana, Arial, Helvetica, sans-serif">JavaSonics</font></a></em> </strong></font>
+        </center></td>
+      <td width="60" bgcolor="#DCE2E7"><center>
+          <h1>SDK</h1>
+        </center></td>
+      <td bgcolor="#DCE2E7"><center>
+          <h1><!-- InstanceBeginEditable name="mainHeading" -->ListenUp Example <!-- InstanceEndEditable --></h1>
+        </center></td>
+    </tr>
+  </table>
+</center>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td valign="top" width="100" bgcolor="#D7E5F2"><br>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/" target="_top">Web&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../index.html" target="_top">SDK&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../docs/index.html" target="_top">Docs</a></p>
+      <p><a class="sidenavbar" href="../php_test/index.html" target="_top">Test&nbsp;PHP</a></p>
+      <p><a class="sidenavbar" href="../asp_test/index.html" target="_top">Test&nbsp;ASP</a></p>
+      <p><a class="sidenavbar" href="../asp_net_test/index.html" target="_top">Test&nbsp;ASP.NET</a></p>
+      <p><a class="sidenavbar" href="index.html" target="_top">Examples</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/demos/" target="_top">Demos</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/downloads/" target="_top">Download</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/sales/" target="_top">Purchase</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/support/" target="_top">Support</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/forum/" target="_top">Forum</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/login/" target="_top">Login</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/contacts.php" target="_top">Contact&nbsp;Us</a></p>
+      <p><a class="sidenavbar" href="http://www.mobileer.com/" target="_blank">Company</a></p>
+      <br>
+    </td>
+    <td valign="top"><div class="primary"> <!-- InstanceBeginEditable name="primaryContent" -->
+                <h2 align="left">Modify an Existing Recording </h2>
+                <p align="left">For information on how to display and edit waveforms see &quot;<a href="record_editor.html">record_editor.html</a>&quot;. </p>
+                <div align="left">
+                    <p>In this example, we load an existing recording, then modify it and add new audio material. This is just like a normal recording session except we add on to a pre-recorded message specified using the &quot;sampleURL&quot; parameter. </p>
+                    <pre>
+ &lt;param name=&quot;sampleURL&quot; value=&quot;welcome.wav&quot;&gt; </pre>
+                    <p>Please:</p>
+                    <ol>
+                        <li>Click in the middle of the waveform and hit the red Record button.</li>
+                        <li>Record a few seconds of audio then hit square Stop button.</li>
+                        <li>Hit Play to hear the original message with your message in the middle. </li>
+                    </ol>
+                </div>
+                <div align="left">
+	              <p>
+	                <applet
+		CODE="com.softsynth.javasonics.recplay.RecorderUploadApplet"
+		CODEBASE="../codebase"
+		ARCHIVE="JavaSonicsListenUp.jar"
+		NAME="JavaSonicRecorder"
+		WIDTH="613" HEIGHT="123">
+	                  
+	                  <!-- Load an existing WAV file. -->
+	                  <param name="sampleURL" value="welcome.wav">
+	                  <!-- Play automatically as soon as the Applet starts. -->
+	                  <param name="autoPlay" value="yes">
+	                  
+	                  <!-- Set maximum message length to whatever you want. -->
+	                  <param name="maxRecordTime" value="60.0">
+	                  
+	                  <!-- Turn on dynamic range compression. -->
+	                  <param name="compressorEnable" value="no">
+	                  
+	                  <!-- Enable Editing of Recording -->
+	                  <param name="editable" value="yes">
+	                  <param name="showWaveform" value="yes">
+	                  <param name="uploadFileName" value="message_12345.wav">
+	                  
+	                  <!-- Server script to receive the multi-part form data. -->
+	                  <param name="uploadURL" value="stub_success.txt">
+                                    </applet>
+	                </p>
+                  </p>
+	              <p>See <a href="index.html">more examples</a>.</p>
+                  <p></p>
+                  <p>&nbsp;  </p>
+                </div>
+        <p>&nbsp;</p>
+                <p> 
+                <!-- InstanceEndEditable --> </div></td>
+  </tr>
+</table>
+<br>
+<div align="left"> &copy; 2001-2006 <a href="http://www.mobileer.com/">Mobileer, Inc.</a> &nbsp;&nbsp;This page is from the ListenUp&nbsp;SDK. You can download the SDK from <a href="http://www.javasonics.com/downloads/">here</a>.</div>
+</body>
+<!-- InstanceEnd --></html>

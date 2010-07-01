@@ -1,0 +1,609 @@
+<?php
+include_once('userroles.php');
+session_start();
+checkLogin('associate');
+
+$userassociate = $_SESSION['user_name'];
+$associateid = $_SESSION['user_id'];
+
+$scenariocount = 7;
+
+// Set up recorder  <<<<<<<<<<<<<<<<<<<<< CHECK THIS SECTION
+$userDir=$userassociate;
+$uploadsDir = "./uploads/" . $userDir;
+
+// Get user data
+$queryuser = "SELECT firstname, lastname, scenario1, scenario2, scenario3, scenario4, scenario5, scenario6, scenario7
+			FROM users WHERE ID='$associateid'";
+$resultuser = mysql_query($queryuser);
+
+if (mysql_num_rows($resultuser) != 1)
+{
+	echo ("unexpected result in user query");
+}
+
+$rowuser = mysql_fetch_row($resultuser);
+$fullname = "$rowuser[0] $rowuser[1]";	
+//// Update scenario results 
+for ($i=1; $i<=7; $i++)
+{
+	$scenario[$i] = $rowuser[($i+1)];
+}
+	
+// Get feedback data
+$queryfeedback = "SELECT fbscenario, fbtext, fbtype, firstname, lastname FROM feedback, users
+						WHERE associateid='$associateid' AND 
+								(feedback.managerid = users.ID)";
+$resultfeedback = mysql_query($queryfeedback);
+if (mysql_num_rows($resultfeedback) >= 1)
+{
+	while ($rowfeedback = mysql_fetch_array($resultfeedback))
+	{
+		$scn = $rowfeedback['fbscenario'];
+		$txt = $rowfeedback['fbtext'];
+		$type = $rowfeedback['fbtype'];
+		$fname = $rowfeedback['firstname'];
+		$lname = $rowfeedback['lastname'];
+		$fbText[$scn] .= $fname." ".$lname." - ".$txt.'\n';
+	}
+}
+
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>PULMOZYME: Manager Screen</title>
+<link href="styles.css" rel="stylesheet" type="text/css" />
+
+<!-- START SLIDE JAVASCRIPT -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="animatedcollapse.js">
+
+/***********************************************
+* Animated Collapsible DIV v2.4- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice MUST stay intact for legal use
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for this script and 100s more
+***********************************************/
+
+</script>
+
+
+<script type="text/javascript">
+animatedcollapse.addDiv('instructions', 'fade=0,speed=400,group=pets,hide=0')
+animatedcollapse.addDiv('scenario1', 'fade=0,speed=400,group=pets, hide=1')
+animatedcollapse.addDiv('scenario2', 'fade=0,speed=400,group=pets, hide=1')
+animatedcollapse.addDiv('scenario3', 'fade=0,speed=400,group=pets, hide=1')
+animatedcollapse.addDiv('scenario4', 'fade=0,speed=400,group=pets, hide=1')
+animatedcollapse.addDiv('scenario5', 'fade=0,speed=400,group=pets, hide=1')
+animatedcollapse.addDiv('scenario6', 'fade=0,speed=400,group=pets, hide=1')
+animatedcollapse.addDiv('scenario7', 'fade=0,speed=400,group=pets, hide=1')
+
+animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
+	//$: Access to jQuery
+	//divobj: DOM reference to DIV being expanded/ collapsed. Use "divobj.id" to get its ID
+	//state: "block" or "none", depending on state
+}
+
+animatedcollapse.init()
+
+</script>
+<!--END SLIDE JAVASCRIPT-->
+<script language="javascript">
+	var scenarioDone=new Array(7);
+		scenarioDone[1] = "<?php echo $scenario[1] ?>"
+		scenarioDone[2] = "<?php echo $scenario[2] ?>"
+		scenarioDone[3] = "<?php echo $scenario[3] ?>"
+		scenarioDone[4] = "<?php echo $scenario[4] ?>"
+		scenarioDone[5] = "<?php echo $scenario[5] ?>"
+		scenarioDone[6] = "<?php echo $scenario[6] ?>"
+		scenarioDone[7] = "<?php echo $scenario[7] ?>"
+	var fileName = "";
+	var uploadsDir = "<?php echo $uploadsDir?>"
+
+	
+	function selectScenario(scenario)
+	{
+		showFeedback(scenario);
+		switch (scenario)
+		{
+		case 'one_response':
+			fileName = "Scenario1.wav";
+			document.getElementById('notes').value = "<?php echo $fbText[1]; ?>";
+			document.JavaSonicRecorderUploader.addNameValuePair("scenario", fileName);
+			if (scenarioDone[1] == 1) { 
+				document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+			}else{
+				document.ListenUpPlayer.erase();
+			}
+			break;
+		case 'two_response':
+			fileName = "Scenario2.wav";
+			document.getElementById('notes').value = "<?php echo $fbText[2]; ?>";
+			document.JavaSonicRecorderUploader.addNameValuePair("scenario", fileName);
+			if (scenarioDone[2] == 1) { 
+				document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+			}else{
+				document.ListenUpPlayer.erase();
+			}
+			break;
+		case 'three_response':
+			fileName = "Scenario3.wav";
+			document.getElementById('notes').value = "<?php echo $fbText[3]; ?>";
+			document.JavaSonicRecorderUploader.addNameValuePair("scenario", fileName);
+			if (scenarioDone[3] == 1) { 
+				document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+			}else{
+				document.ListenUpPlayer.erase();
+			}
+			break;
+		case 'four_response':
+			fileName = "Scenario4.wav";
+			document.getElementById('notes').value = "<?php echo $fbText[4]; ?>";
+			document.JavaSonicRecorderUploader.addNameValuePair("scenario", fileName);
+			if (scenarioDone[4] == 1) { 
+				document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+			}else{
+				document.ListenUpPlayer.erase();
+			}
+			break;
+		case 'five_response':
+			fileName = "Scenario5.wav";
+			document.getElementById('notes').value = "<?php echo $fbText[5]; ?>";
+			document.JavaSonicRecorderUploader.addNameValuePair("scenario", fileName);
+			if (scenarioDone[5] == 1) { 
+				document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+			}else{
+				document.ListenUpPlayer.erase();
+			}
+			break;
+		case 'six_response':
+			fileName = "Scenario6.wav";
+			document.getElementById('notes').value = "<?php echo $fbText[6]; ?>";
+			document.JavaSonicRecorderUploader.addNameValuePair("scenario", fileName);
+			if (scenarioDone[6] == 1) { 
+				document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+			}else{
+				document.ListenUpPlayer.erase();
+			}
+			break;
+		case 'seven_response':
+			fileName = "Scenario7.wav";
+			document.getElementById('notes').value = "<?php echo $fbText[7]; ?>";
+			document.JavaSonicRecorderUploader.addNameValuePair("scenario", fileName);
+			if (scenarioDone[7] == 1) { 
+				document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+			}else{
+				document.ListenUpPlayer.erase();
+			}
+			break;
+		}
+	}
+	
+	function scenarioUpload () {
+		var scenariofile = fileName;
+		document.ListenUpPlayer.loadRecording(uploadsDir + "/" + fileName);
+		switch (scenariofile)
+		{
+		case 'Scenario1.wav':
+		scenarioDone[1]="1";
+		break;
+		case 'Scenario2.wav':
+		scenarioDone[2]="1";
+		break;
+		case 'Scenario3.wav':
+		scenarioDone[3]="1";
+		break;
+		case 'Scenario4.wav':
+		scenarioDone[4]="1";
+		break;
+		case 'Scenario5.wav':
+		scenarioDone[5]="1";
+		break;
+		case 'Scenario6.wav':
+		scenarioDone[6]="1";
+		break;
+		case 'Scenario7.wav':
+		scenarioDone[7]="1";
+		break;		}
+	}
+	
+function appletLoaded()
+{
+	if( !document.ListenUpPlayer.isActive() )
+	{
+		// Wait 100 milliseconds and try again.
+		setTimeout('appletLoaded()', 100 );
+	} else if ( !document.JavaSonicRecorderUploader.isActive()) 
+	{
+		setTimeout('appletLoaded()', 100 );
+	} else {
+		document.JavaSonicRecorderUploader.setUploadCompletionScript("scenarioUpload();");
+		selectScenario('one_response');
+	}
+}	
+</script>
+
+</head>
+
+<body>
+<div id="container">
+<div class="blue" id="logout" style="width: 80px; float: right;"> Log Out </div>
+<img src="images/logo.gif" width="303" height="98" alt="Pulmozyme" />
+
+
+<div id="content" align="center">
+ <table width="839" border="0">
+  <tr>
+    <td width="420" rowspan="3" valign="top">
+      <div id="column-wide">
+        <div id="menu-bar3" style="text-align:center;"> Scenarios</div>
+        <div class="contentInterior">
+          <div class="scenario">
+            <form action="" method="" name="territoryForm" id="territoryForm" onsubmit="">
+              <table border="0" cellspacing="1" cellpadding="0">
+                <tr>
+                  <td width="562" class="blue">
+                  
+                  <a href="#" rel="toggle[instructions]" data-openimage="images/instructions-close.jpg" data-closedimage="images/instructions.jpg"><img src="collapse.jpg" border="0" /></a>
+
+                  <div id="instructions" class="drop"><strong>Overview and Instructions</strong>
+                    <p>Welcome to the Pulmozyme Fluency Tool – an online environment designed to help you become skilled at overcoming objections that you frequently hear from physicians in the field. <br />
+    Using the tool, you will follow a simple process to record, review and then upload audio responses to sales scenarios. Then, you will receive feedback on your responses from either a classroom trainer, manager or field sales trainer to help you improve your effectiveness.<br />
+    Follow these instructions to get started:</p>
+  <ol>
+    <li>Read the first scenario presented.</li>
+    <li>Record your audio response. </li>
+    <li>Listen to your response. </li>
+    <li>Listen to an ideal response to the scenario.</li>
+    <li>Rerecord until you are satisfied with your response.</li>
+    <li>Upload your audio response.</li>
+    <li>Continue this process until you have responded to all seven scenarios.</li>
+  </ol>
+  <p>A manager or trainer will offer feedback on your audio responses. You can return to the tool to view feedback and resume the process – positioning you to achieve sales success by overcoming objections with accuracy and effective delivery!<strong> </strong></p>
+</div>
+
+
+
+
+
+<a href="#" rel="toggle[scenario1]" data-openimage="images/scenario1-close.jpg" data-closedimage="images/scenario1.jpg"><img src="collapse.jpg" border="0" /></a>
+
+<div id="scenario1" class="drop">
+  <p><strong>Description of the Situation</strong></p>
+  <p>You are meeting with Dr. Leonard, a pediatric pulmonologist, for the 2nd time. You begin the conversation with some open-ended questions to explore Dr. Leonard‘s thoughts about early disease and clinical findings.&nbsp; Dr. Leonard replies that each patient presents differently and some patients show early symptoms while others do not.&nbsp; He asks if there is any new data to suggest that disease starts early in the course of CF.</p>
+  <hr />
+  <p>
+    <strong>Description of Resources a</strong><strong>nd Response</strong></p>
+<p>Response would include a discussion of data suggesting early disease in CF.</p>
+  <p><strong><u>Resources</u></strong><br />
+    Resources to use during the disease state discussion include:</p>
+  <ul>
+    <li>Cystic Fibrosis(CF); Early Disease Processes and Their Role in CF Lung Disease: Data supporting the fact that there is lung disease/damage early in the course of disease, even when FEV1 is normal.</li>
+    <li>Kirchner PRC-approved article: Shows increased DNA levels in infants with CF – and in some cases this was before there was radiographic evidence of disease.</li>
+    <li>Sly PRC-approved article: Radiographic evidence of lung disease/ free neutrophilic elastase activity associated with structural lung disease.</li>
+  </ul>
+  <p>For your background information only: Reprint Binder</p>
+  <ul>
+    <li>Paul article: BALF study showing evidence of neutrophilic airway inflammation in patients with normal lung function.</li>
+    <li>Brody article: High-Resolution CT in Young Patients showing that bronchiectasis is common in young children with CF with normal PFT’s.</li>
+    <li>Tiddens article: Indicating a discrepancy between lung function and structural damage.</li>
+    <li>Terrheggen-Lagro article: Study in young children with CF showing that chest radiograph scores worsen significantly over time even while lung function remains stable.</li>
+    <li>Muhlebach article: Data showing that the ratio of neutrophils or of IL-8 to bacteria in BALF was significantly greater for CF patients compared to control subjects, regardless of pathogen.</li>
+  </ul>
+  <p><strong><u>CS Response Focusing on Early Disease</u></strong><br />
+    Dr. Leonard, thank you for allowing me to address your question. There are numerous studies that support the fact that lung disease and damage exist early in the course of CF—even when the FEV1 is normal. Let’s take a look at the data. Represented here (point to graph on page 2 in the disease education material) we can see that central and peripheral bronchiectasis on HRCT exists in patients with normal FEV1.</p>
+  <p>&nbsp;</p>
+  <p>In an evaluation of 57 infants at diagnosis, Sly et al reported that chest CT imaging showed 1 or more radiographic findings, suggesting lung disease in 80% of the patients at 3 months of age. The majority of infants in this study had no respiratory symptoms or evidence of active pulmonary infection.</p>
+  <p>When we consider CF disease progression, we know that a decrease in chloride secretion and an increase in sodium absorption lead to dehydrated sticky mucus. This in turn can cause airway obstruction leading to infection, inflammation, and bronchiectasis. The process repeats itself over and over again, descending into a downward spiral that affects lung structure and eventually function. Let’s talk about inflammation for just a minute.</p>
+  <p>Inflammation can occur early in CF and it contributes to structural lung damage.&nbsp; Numerous studies—Muhlebach, Sly, Kirchner,&nbsp; to name a few—all reveal elevated markers of inflammation in the secretions of young CF patients.&nbsp; In a study of 109 children, Muhlebach showed that CF patients had significantly higher amounts of neutrophils and IL-8 than non- CF patients, whether or not bacteria were present. In the same Sly article we discussed before, of the 57 CF infants studied, 30% had detectable levels of free neutrophil elastase in BAL fluid. Furthermore, the Kirchner study looked at infants with CF and showed an increase in BALF DNA before there was radiographic evidence of disease.&nbsp; </p>
+  <p>Inflammation causes marked neutrophilia. As the neutrophils die they release their contents.</p>
+  <ul>
+    <li>High molecular weight DNA increases the viscosity and adhesiveness of mucus. This can make mucus clearance difficult for the patient and can promote more obstruction, infection, and inflammation.</li>
+    <li>Elastase digests elastin and airway wall proteins—this contributes to structural damage.</li>
+    <li>Oxidants contribute to lung damage by overwhelming anti-oxidant defenses.</li>
+  </ul>
+  <p>&nbsp;Dr. Leonard, the data supports the fact that disease exists before tests demonstrate infection or signs of lung damage, and we know that the pathophysiology of CF lung disease involves a progressive spiral of inflammation, infection and obstruction.&nbsp; After reviewing these data together, and thinking about some of the young CF patients that you are seeing routinely, does this change your perception about their disease progression?</p>
+</div>
+
+
+
+<a href="#" rel="toggle[scenario2]" data-openimage="images/scenario2-close.jpg" data-closedimage="images/scenario2.jpg"><img src="collapse.jpg" border="0" /></a> 
+
+<div id="scenario2" class="drop">
+  <p><strong>Description of the Situation</strong></p>
+  <p>You are meeting with Dr. Reynolds, a pediatric pulmonologist, who recently completed her fellowship program and joined the Cystic Fibrosis Care Center. You are meeting with Dr. Reynolds for the first time. You begin the conversation with an open-ended question. Can you tell me about your experience with Pulmozyme? Dr. Reynolds states that she cared for several CF patients on Pulmozyme during her fellowship. She knows that Pulmozyme is a component of standard therapy for the patient with CF, but asks if you would review the mechanism of action. 
+  <hr />
+    <strong>Description of Resources and Response</strong></p>
+  <p>Response would include a discussion of Pulmozyme’s MOA and use in the treatment of cystic fibrosis.</p>
+  <p><strong><u>Resources</u></strong><br />
+    Resources used during a Pulmozyme discussion:</p>
+  <ul>
+    <li>Pulmozyme education brochure: Review of abnormal mucus and disease progression, how Pulmozyme addresses abnormal mucus, proposed MOA, improvement in lung function, reduction in risk of exacerbation, thereby delaying disease progression.</li>
+    <li>Pulmozyme PI: Review of Pulmozyme’s impact on lung function and respiratory exacerbation rate.</li>
+  </ul>
+  <p>&nbsp; <br />
+    <strong><u>CS Response Focusing on Pulmozyme</u></strong><br />
+    Dr. Reynolds, Pulmozyme addresses the abnormal mucus associated with CF. Let’s look at the effect of Pulmozyme on thick, tenacious mucus. (Show the “before and after Pulmozyme in test tube” picture on page 14 in the Pulmozyme education brochure). Pulmozyme has been shown <em>in vitro</em> to cleave extracellular DNA in mucus. The effect of cleaving extracellular DNA is to reduce mucus adhesiveness and viscoelasticity.</p>
+  <p>As part of a treatment plan, Pulmozyme can be prescribed before lung function loss.&nbsp; In a study by Fuch’s et al, 968 clinically stable CF patients over 5 years of age were randomized to receive treatment with Pulmozyme once daily or Pulmozyme twice daily over a 6 month period. Administration of Pulmozyme once daily reduced the relative risk of pulmonary exacerbations requiring parenteral antibiotics by 27% and improved lung function by 5.8%. </p>
+  <p>Based on our discussion Dr. Reynolds, do your patients report a change in their mucus when you start them on Pulmozyme therapy and do you think that Pulmozyme is an important part of CF management?</p>
+</div>
+
+
+
+<a href="#" rel="toggle[scenario3]" data-openimage="images/scenario3-close.jpg" data-closedimage="images/scenario3.jpg"><img src="collapse.jpg" border="0" /></a>
+<div id="scenario3" class="drop">
+<p><strong>Description of the Situation</strong></p>
+<p>You are meeting with Dr. Peters, a pulmonologist who has recently moved to the area. He has just joined a relatively new adult CF program at the CF Center. In your conversation with Dr. Peters you learn that his previous experience has been in a general adult pulmonary clinic, where he saw primarily COPD and lung cancer patients. He is excited about this new opportunity to specialize in CF. He asks you to tell him about the Pulmozyme data for CF, particularly data on BID dosing for adults.</p>
+<hr />
+<p><strong>Description of Resources and Response</strong></p>
+<p>Response would include a discussion of the efficacy and MOA of Pulmozyme.</p>
+<p><strong><u>Resources</u></strong><br />
+  Resources to use during the discussion:</p>
+<ul>
+  <li>Fuchs PRC-approved article: discuss the design, methods, &nbsp;and results </li>
+  <li>Pulmozyme PI: Clinical data, emphasis on the data with BID dosing in patients&nbsp; ≥21 years of age</li>
+  <li>Refer to Medical Communications for further information on BID dosing</li>
+</ul>
+<p><strong><u>CS Response</u></strong><br />
+  Dr. Peters, your experience in treating lung disease affords you the opportunity to now expand your expertise into treating CF.&nbsp; Pulmozyme is a leading treatment for CF based on the data that supports its efficacy. Take a look at this study conducted by Dr. Fuchs showing a reduction in relative risk of respiratory exacerbations requiring parenteral antibiotics for mild and moderate patients, as well as improvement in FEV1 across patient severity types.&nbsp; This is a randomized, double-blind, placebo-controlled study to determine the effects of once daily and twice daily administration of rhDNase on exacerbations of respiratory symptoms requiring parenteral antibiotics and on pulmonary function. A total of 968 CF patients from 51 institutions, 5 years of age or older, were enrolled and treated as outpatients for 24 weeks. </p>
+<p>In this same study, treating CF patients with mild to moderate pulmonary disease, BID dosing showed an overall improvement in lung function, with a 5.6% improvement in mean FEV1 compared with placebo. Additionally, BID dosing in patients reduced the relative risk of respiratory tract infections requiring parenteral antibiotics. </p>
+<p>Adult CF patients can be a sicker CF population than their younger peers. In the Fuchs study, patients 17 to 23 years of age, regardless of treatment group assignment, had a higher incidence of exacerbations. (Fuchs, p 639) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p>The data also suggest that the effects of Pulmozyme in older patients (&gt;21 years) may be smaller than in younger patients and that twice daily dosing may be required in older patients. (Pulmozyme PI) As compared with placebo, the administration of rhDNase once daily and twice daily reduced the age-adjusted risk of respiratory exacerbations by 28% and 37% respectively. (Fuchs, p 637) The most common adverse events reported include voice alteration, pharyngitis, laryngitis, rash, chest pain, and conjunctivitis. </p>
+<p>Dr. Peters, would you consider using BID dosing for some of your CF patients? </p>
+<a href="#" rel="toggle[scenario4]" data-openimage="images/scenario4-close.jpg" data-closedimage="images/scenario4.jpg"><img src="collapse.jpg" border="0" /></a> 
+</div>
+
+<div id="scenario4" class="drop">
+  <p><strong>Description of the Situation</strong></p>
+  <p>You are meeting with Dr. James, a pediatric pulmonologist at the small rural pulmonary clinic. He manages the care for a small number of CF patients who are unable to travel to the regional CF center. He is familiar with Pulmozyme and states that he generally prescribes Pulmozyme only for his patients with severe disease, who are having frequent exacerbations requiring hospitalization. The patients are already burdened with daily care and this avoids the time and expense of another added daily treatment until it is really needed.</p>
+  <p><strong>Description of the Resources and Response</strong></p>
+  <p>Response could incorporate disease state education on the first visit, followed by Pulmozyme MOA discussions on subsequent visits. </p>
+  <hr />
+  <p><strong><u>Resources for Initial Visit</u></strong><br />
+    Resources to use during disease state discussion include:</p>
+  <ul>
+    <li>Pulmozyme education brochure: Section on assessing risk factors for disease progression in cystic fibrosis</li>
+    <li>Konstan (2007)PRC-approved article: Identifying risk factors for rate of decline in FEV1</li>
+    <li>Konstan (2003)PRC-approved article: Growth and nutritional indexes in early life predict pulmonary function in CF</li>
+    <li>Cory PRC-approved article: Normal pulmonary function did not predict a slower rate of decline</li>
+  </ul>
+  <p>For your background information only: Clinical Reprint Binder</p>
+  <ul>
+    <li>Flume (2007)article: Practice guidelines recommending chronic use of Pulmozyme in mild, moderate and severe disease</li>
+    <li>Tiddens article: CF lung inflammation is early, sustained and severe. The same is true for lung damage</li>
+  </ul>
+  <p><strong><u>CS Response </u></strong><br />
+    Dr. James, I understand your concerns for your patients.&nbsp; Let’s talk about disease severity and risk factors for disease progression for a few moments. I brought 3 articles that I think you might find interesting.&nbsp; This brochure highlights some of the findings in these studies (Section 2 in Pulmozyme education brochure on Risk factors/disease progression).</p>
+  <p>As you can see on the first page, here are 3 HRCT scans of a 9 year old, 13 year old, and a 21 year old. Each of these patients has normal PFTs, which reflect normal lung function. But look at the scan itself; there is significant structural damage. This shows that structural lung damage may be well underway prior to abnormal lung function. What are your thoughts about this and do you have any patients that you currently see where this underlying process may be happening?</p>
+  <p>When looking at the very young patient, the Konstan et al study identified patients at risk for pulmonary function decline. These data came from a prospective, observational study involving 931 patients from ESCF. He determined that at-risk patients could be identified even before routine pulmonary function tests could be performed. Risk factors present at age 3 could predict lung function at age 6. These included cough, sputum, clubbing, crackles, and a positive <em>Pseudomonas</em> culture. Lower nutritional factors such as weight-for-age and height-for-age were also associated with reduced pulmonary function at age 6 in this study.</p>
+  <p>Looking at 4866 patients, again from ESCF, Konstan et al sought to characterize the rate of pulmonary function decline over a period of 4 years in 3 different age groups (6-8, 9-12, and 13-17), and to identify and compare risk factors associated with pulmonary decline. Across the 3 different age groups, high baseline FEV1 and crackles were both significantly associated with a steeper rate of decline. High lung function should not be clinically reassuring.</p>
+  <p>In a much earlier study by Cory et al, patients over age 5 with normal early PFT measures showed variable survival curves. Normal pulmonary function did not predict a slower rate of disease progression.</p>
+  <p>According to what we have reviewed, it appears that severe disease may be present before you see significant changes in clinical signs and symptoms. What are your thoughts?</p>
+  <p><strong><u>Resources for Return (Separate) Visit</u></strong><br />
+    Resources to use during a Pulmozyme discussion include:</p>
+  <ul>
+    <li>Pulmozyme education brochure: Review Section 1 on abnormal mucus and disease progression; Section 3 regarding how Pulmozyme addresses abnormal mucus; Section 4 on prescribing Pulmozyme along with other standard therapies to improve lung function and reduce exacerbation risk, thereby delaying disease progression</li>
+    <li>Pulmozyme PI: Clinical trial data, indication for use</li>
+  </ul>
+  <p><strong><u>CS Response on the return visit:</u></strong><br />
+    Dr. James, thank you for seeing me today. On this visit I would like to discuss Pulmozyme and its role in fighting CF disease progression.</p>
+  <p>In the normal lung, mucus has beneficial properties, but in the CF lung, mucus becomes sticky and thick due to the DNA left behind by ongoing neutrophillic death. This can lead to airway obstruction. (Pulmozyme education brochure, Section 1: Abnormal Mucus and Disease Progression) </p>
+  <p>Pulmozyme addresses abnormal mucus associated with CF. Based on findings from <em>in vitro</em> studies, the proposed mechanism of action of Pulmozyme is its effect on thick, tenacious mucus. (Show picture of before and after Pulmozyme in test tube in the Pulmozyme education brochure, page 14). The effect of cleaving extracellular DNA is to reduce mucus adhesiveness and viscoelasticity.</p>
+  <p>In a study by Fuchs et al,&nbsp; 968 clinically stable patients over 5 years of age, with an FVC &nbsp;&gt;40% of predicted, &nbsp;were randomized to treatment with Pulmozyme once daily and Pulmozyme twice daily over a 6 month period. Administration of Pulmozyme once daily reduced the relative risk of pulmonary exacerbations requiring parenteral antibiotics by 27% and significantly improved lung function by 5.8%. (Pulmozyme education brochure, Section 4 : Prescribe Pulmozyme to improve lung function and reduce exacerbation risk, thereby delaying disease progression.)</p>
+  <p>Pulmozyme is used in conjunction with standard therapies in the management of cystic fibrosis to improve lung function. In patients with an FVC ≥40% of predicted, daily administration of Pulmozyme has also been shown to reduce the risk of respiratory tract infections requiring parenteral antibiotics. Would you consider using Pulmozyme before you see signs and symptoms of severe disease?</p>
+I know that you are also concerned about expense for the patient.&nbsp; Pulmozyme Access Solutions helps to resolve specific access and reimbursement issues for individual patients every day. Our dedicated Specialists help bring patient treatment and practice solutions together. The consequences to patients with financial concerns can be significant. Pulmozyme Access Solutions can help. We offer several options that may help cover the cost of medicines for Pulmozyme patients who are uninsured, rendered uninsured by payer denial, underinsured or who have financial concerns. Patient assistance offerings through Pulmozyme Access Solutions help your patient obtain the therapy that is prescribed, regardless of their ability to pay. I will leave these brochures behind with the phone number to call to speak with one of our Specialists or you can visit PulmozymeAccessSolutions.com.&nbsp;&nbsp; </div>
+
+
+
+<a href="#" rel="toggle[scenario5]" data-openimage="images/scenario5-close.jpg" data-closedimage="images/scenario5.jpg"><img src="collapse.jpg" border="0" /></a> 
+
+<div id="scenario5" class="drop">
+  <p><strong>Description of the Situation</strong></p>
+  <p>You are meeting with Dr. Westin, the pulmonologist at a small CF Center. When you are leaving his office you run into the office administrator in the hallway. She stops you and states that she has been really frustrated working with insurance carriers for the last 2 patients that have started on Pulmozyme. </p>
+  <hr />
+  <p><strong>Description of Resources and Response </strong></p>
+  <p>The response would incorporate a discussion of services for uninsured, underinsured, and benefits investigation through Access Solutions and the required forms.</p>
+  <p><strong><u>Resources</u></strong><br />
+    Response would incorporate:</p>
+  <ul>
+    <li>Access Solutions brochure </li>
+    <li>SMN and PAN forms</li>
+  </ul>
+  <p><strong><u>CS Response</u></strong><br />
+    Holly, thank you for sharing your concerns with me in regards to gaining access to Pulmozyme for your patients. I just left a meeting with Dr. Westin, where we discussed all the clinical benefits of Pulmozyme, and he has seen improvements in lung function in his patients who are using the product, so I certainly want to clear up any roadblocks you or your patients are encountering once they have been prescribed Pulmozyme.&nbsp; </p>
+  <p>At Genentech, we believe therapies should be accessible for the patients who need them. Since 1985, Genentech has donated approximately $1.3 billion in free medicine to uninsured patients through the Genentech Access to Care Foundation (GATCF) and other donation programs. Since 2005, Genentech has donated approximately $250 million to various independent non-profit organizations that provide financial assistance to eligible patients who cannot access needed medical treatment because of copay costs. </p>
+  <p>The consequences to patients with financial concerns can be significant. Pulmozyme Access Solutions can help. We offer several options that may help cover the cost of medicines for Pulmozyme patients who are uninsured, rendered uninsured by payer denial, underinsured or who have financial concerns. Patient assistance offerings through Pulmozyme Access Solutions help your patient obtain the therapy that is prescribed, regardless of their ability to pay.</p>
+  <p>From benefits investigation to assistance with denials and appeals, Pulmozyme Access Solutions helps your office resolve coverage and reimbursement-related needs. When seeking coverage and reimbursement assistance from Pulmozyme Access Solutions, complete the following 2 forms: </p>
+  <ul>
+    <li>The Statement of Medical Necessity (SMN)—a form with basic patient, insurance, and prescription information used when contacting a patient’s health insurance plan to determine their reimbursement coverage and eligibility for treatment</li>
+    <li>The Patient Authorization and Notice of Release of Information (PAN)—a form signed and dated by your patient that gives written permission for Pulmozyme Access Solutions to discuss his or her case with you and the patient’s health insurance plan</li>
+  </ul>
+  <p>Once we have received these 2 completed forms, your dedicated Pulmozyme Access Solutions Specialist can complete an initial benefits investigation, identify necessary prior authorizations, and assist with appeals, should they become necessary.</p>
+  <p>The phone number to call for Pulmozyme Access Solutions is 1-800-690-3023. Or you may visit our website PulmozymeAccessSolutions.com.</p>
+  <p>The forms that I mentioned are accessible on the website, and I have some hard copies as well for you to keep in your files. It may be a good idea to keep a blank PAN form in the patient’s chart so that you have the opportunity to easily update the PAN form each year; just in case the patient’s insurance status should change. </p>
+  <p>I left some of these brochures with Dr. Westin and his nurse, but I will leave some with you as well.&nbsp; Please let me know if you have any questions or any problems in the future. Here is my card. Of course, any patient-specific issues would be handled by the Access Solutions case manager working with that patient’s case. &nbsp;</p>
+  <strong><br clear="all" />
+  </strong></div>
+
+
+
+<a href="#" rel="toggle[scenario6]" data-openimage="images/scenario6-close.jpg" data-closedimage="images/scenario6.jpg"><img src="collapse.jpg" border="0" /></a> 
+
+<div id="scenario6" class="drop">
+  <p><strong>Description of the Situation</strong></p>
+  <p>You are meeting with the nursing staff at the CF Center and you run into Dr. Levine, one of the pediatric pulmonologists. She tells you that she just saw a 4 year-old patient who has progressive lung disease and increasing frequency of infection and pulmonary exacerbations. She says she is thinking about starting him on Pulmozyme and wants to know what data is available for that age group. Do you know if insurance will cover the medication?</p>
+  <hr />
+  <p><strong>Description of Resources and Response</strong></p>
+  <p>The response would incorporate an emphasis that use of Pulmozyme in children under 5 years of age is at the discretion of the pulmonologist.</p>
+  <p><strong><u>Resources</u></strong><br />
+    Resources to use during the discussion include: </p>
+  <ul>
+    <li>Pulmozyme PI: With emphasis that use in children under 5 years of age is at the discretion of the pulmonologist</li>
+    <li>Access Solutions program brochure</li>
+    <li>Referral to Medical Communications Department &nbsp;</li>
+  </ul>
+  <p>For your background information only: Clinical Reprint Binder</p>
+  <ul>
+    <li>Wagener article: Aerosol delivery and safety of recombinant human deoxyribonuclease in young children with cystic fibrosis: a bronchoscopic study</li>
+  </ul>
+  <p><strong><u>CS Response</u></strong><br />
+    Dr. Levine, Pulmozyme has been extensively studied in patients 5 years of age and older. The Pulmozyme PI addresses the population of patients under 5 years of age. Let me show you. Here it states that because of limited experience with the administration of Pulmozyme to patients younger than 5 years of age, its use should be considered only for those patients in whom there is a potential for benefit in pulmonary function or in risk of respiratory tract infection. </p>
+  <p>I am not able to specifically address the under 5 years of age population, other than what is stated in our PI. I can pass along your question to our Medical Communications Department. They may be able to address the use of Pulmozyme in the under 5 years of age population. </p>
+  <p>Regarding your question about insurance coverage...Pulmozyme Access Solutions helps to resolve specific access and reimbursement issues for individual patients every day. Our dedicated Specialists help bring patient treatment and practice solutions together. From benefit investigation to assistance with denials and appeals, Pulmozyme Access Solutions helps your office resolve coverage and reimbursement-related needs. For specific information you may call 1-800-690-3023, or visit our website at PulmozymeAccessSolutions.com. The Pulmozyme Access Solutions Specialist will be very helpful in assisting the family and your office should you decide that Pulmozyme is your treatment choice. </p>
+  <p>I will check with you in a day or two. In the meantime, I will leave these Pulmozyme Access Solutions brochures with you and I will have the Medical Communications Department contact you in hopes that your question can be answered to your satisfaction. </p>
+</div>
+
+
+
+<a href="#" rel="toggle[scenario7]" data-openimage="images/scenario7-close.jpg" data-closedimage="images/scenario7.jpg"><img src="collapse.jpg" border="0" /></a> 
+
+<div id="scenario7" class="drop">
+  <p><strong>Description of the Situation</strong></p>
+  <p>You have an appointment to meet with Dr. Benjamin, an adult pulmonologist, who started the adult CF program at the CF Center 5 years ago. As she sits down to talk with you, Dr. Benjamin shakes her head and says, “I’ve been in clinic all morning, and I keep hearing the same thing from my patients – <em>why do you keep adding more medications? Can’t I eliminate something for a change? It takes me so much time to neb all these drugs</em>.&nbsp; Some of my patients have been on Pulmozyme for 14 years. The hypertonic saline seems to add some benefit. Do they need to be on both Pulmozyme and hypertonic saline?</p>
+  <p><strong>Description of Resources and Response </strong></p>
+  <hr />
+  <p>The response would incorporate a discussion of the Pulmozyme MOA and efficacy data, as well as Pulmozyme administration.</p>
+  <p><strong><u>Resources&nbsp; </u></strong><br />
+    Resources to include in the discussion: </p>
+  <ul>
+    <li>Pulmozyme education brochure: &nbsp;Review of &nbsp;the MOA for Pulmozyme – Section3: Pulmozyme addresses abnormal mucus; Section 4: Prescribe Pulmozyme to improve lung function and reduce exacerbation risk, thereby delaying disease progression</li>
+    <li>Fuchs PRC-approved article: Reduction of exacerbations, lung function improvement</li>
+    <li>Pulmozyme Patient Education brochure</li>
+    <li>Request for the Medical Communications Department to discuss hypertonic saline</li>
+  </ul>
+  <p>For your background information only: Clinical Reprint Binder</p>
+  <ul>
+    <li>Flume (2007) article: Guidelines for use of chronic medications</li>
+  </ul>
+  <p><strong><u>CS Response</u></strong><br />
+  &nbsp;Dr. Benjamin, as Director of the CF Program, I understand your commitment to identify the most simple and effective regimen for your CF patients. As an adult practitioner, it must be difficult to balance the wants of your patients with the needs of your patients. The safety and efficacy of Pulmozyme has been extensively studied in thousands of patients. </p>
+  <p>Let me ask you a couple of questions because I can tell you feel the frustration for your patients. What have been your experiences with Pulmozyme? </p>
+  <p><em>[If the answer is positive, move on to the next question. If the answer is negative or ambivalent, make sure to discuss the MOA and efficacy data as noted in the Fuchs trial. Refer to Fluency scenario number 2 and 3 to discuss Pulmozyme MOA.]</em></p>
+  <p>Do your patients understand the proposed MOA of Pulmozyme and how it fits into the treatment strategy you have chosen for them? I will leave some patient education brochures here for you. This may help you to explain, or remind them of, how Pulmozyme is proposed to work and its importance for their daily regimen. It reviews the importance of mucus and why sticky mucus is so detrimental to the health of their lungs and how it can lead to the downward spiral of CF disease progression. The brochure also shows them how Pulmozyme may work—based on in vitro studies. <br />
+    The brochure also discusses the clinical data from the Fuchs study. As you are aware, in this trial 968 clinically stable patients over 5 years of age, with an FVC &nbsp;&gt;40% of predicted, &nbsp;were randomized to treatment with Pulmozyme once daily and Pulmozyme twice daily over a 6 month period. Administration of Pulmozyme once daily reduced the relative risk of pulmonary exacerbations requiring parenteral antibiotics by 27% and significantly improved lung function by 5.8%. In this clinical trial, daily administration of Pulmozyme was also found to reduce the risk of respiratory tract infections requiring parenteral antibiotics.</p>
+  <p>Pulmozyme has a relatively short neb time, an average of approximately 4 to 6 minutes, and can be taken at any time during the day. It allows the patient flexibility. The time of nebulization will vary depending on the nebulizer and compressor system used.&nbsp; </p>
+  <p>Another important consideration is that Pulmozyme and hypertonic saline have different mechanisms of action. I cannot discuss the MOA of hypertonic saline or data related to that therapy, but would be happy to have our Medical Communications Department contact you. </p>
+  <p>Dr. Benjamin, I hope some of your concerns have been met. But I understand that you may want to talk with our Medical Communications Department to fully address the issue concerning hypertonic saline. Based on our conversation, do you think of Pulmozyme as an optional therapy or as a standard of care?</p>
+</div>
+                  
+                  
+                  
+                  </td>
+                </tr>
+                </table>
+              </form>
+            </div>
+          </div>
+      </div></td>
+    <td height="113" valign="top">
+    
+    <div id="column-wide">
+      <div id="menu-bar3" style="text-align:center;"> Record</div>
+      <div class="contentInterior">
+        <div class="scenario">
+<!-- Recorder Applet -->
+<applet 
+    CODE="com.softsynth.javasonics.recplay.RecorderUploadApplet"
+	mayscript = "true"
+    CODEBASE="./codebase"
+    ARCHIVE="JavaSonicsListenUp.jar"
+    NAME="JavaSonicRecorderUploader"
+    WIDTH="390" HEIGHT="130">
+	<param name="background" value="ffffff">
+	<param name="foreground" value="000000">
+	<param name="waveBackground" value="DCDCF6">
+	<param name="waveForeground" value="03175C">
+	<param name="skin" value="./images/DiddlySkin1.jpg">
+	<param name="bevelSize" value="0">
+    <param name="uploadURL" value="handle_upload_simple.php">
+    <param name="uploadFileName" value="upload.wav">
+	<param name="showLogo" value="no">
+	<param name="stashBeforeSend" value="yes">
+	<param name="useFileCache" = "yes">
+	
+	<param name="fieldName_1" value="userDir">
+	<param name="fieldRows_1" value="0">
+	<param name="fieldDefault_1" value="<?php echo $userDir ?>">
+
+	<param name="fieldName_2" value="scenario"> -->
+	<param name="fieldRows_2" value="0"> -->
+	<param name="fieldDefault_2" value="Scenario1.wav"> -->
+	
+	<param name="fieldName_3" value="userId">
+	<param name="fieldRows_3" value="0">
+	<param name="fieldDefault_3" value="<?php echo $associateid ?>">	
+	
+</applet>
+<!-- End Recorder Applet -->
+
+<div id="menu-bar-between" style="text-align:center;"> Listen </div>
+
+<!-- Player Applet -->
+<applet 
+    CODE="com.softsynth.javasonics.recplay.PlayerApplet"
+	mayscript = "true"
+    CODEBASE="./codebase"
+    ARCHIVE="JavaSonicsListenUp.jar"
+    NAME="ListenUpPlayer"
+    WIDTH="390"
+    HEIGHT="90">
+	<param name="background" value="ffffff">
+	<param name="foreground" value="000000">
+	<param name="waveBackground" value="DCDCF6">
+	<param name="waveForeground" value="03175C">
+	<param name="skin" value="./images/DiddlySkin1.jpg">
+	<param name="bevelSize" value="0">
+	<param name="showTimeText" value="yes">
+	<param name="showLogo" value="no">
+
+    <!-- Play the file at this URL. - set by javascript -->
+<!--    <param name="sampleURL" value="Scenario1.wav"> -->
+</applet>
+<!-- End Applet -->	     
+<p>
+<input type="button" value="Load Your Response" disabled=true>
+<input type="button" value="Load Optimal Response" disabled=true>
+            <table border="0" cellspacing="1" cellpadding="0">
+              <tr>
+                <td width="562" class="blue">Using the controls above, you can record and upload your audio response. Click the red circle to begin recording. Click “SEND” when you are ready to submit to your manager. Once you have recorded your response, you will be able to listen to an ideal response by [Laurie, please complete this sentence when design is complete]
+                <div align="center" style="padding: 10px 0 0 0;" class="blue">
+          <form id="form1" name="form1" method="post" action="">
+      <label>
+        <textarea name="notes" id="notes" cols="40" rows="13" disabled=true>Once your manager has listened to your response, feedback from your manager will appear in this box.</textarea>
+      </label>
+    </form>
+    </div>
+                
+                </td>
+              </tr>
+            </table>
+          
+          
+        </div>
+      </div>
+    </div></td>
+  </tr>
+  <tr>
+    <td height="200" valign="bottom">
+  
+</td>
+  </tr>
+  <tr>
+    <td width="409" height="2" valign="bottom"></td>
+    </tr>
+  </table>
+</div>
+</div>
+<script language="javascript">
+	setTimeout('appletLoaded()', 10);
+</script>
+
+<div id="footer1">
+  <p>THIS INFORMATION IS CONFIDENTIAL AND FOR INTERNAL EDUCATIONAL PURPOSES ONLY. 
+    <br />
+    SOME OF THE CONTENT WITHIN THIS CASE STUDY MAY NOT BE CONDSISTENT WITH THE U.S. PRESCRIBING INFORMATION. </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/sdkDoc.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../style_sdk.css" rel="stylesheet" type="text/css"/>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Example of using Text Fields</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+	<meta name="KeyWords" content="Java, audio, voice, upload, demos, ListenUp">
+	<meta name="Description" content="Applet for recording and uploading voice.">
+
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<center>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+      <td width="200" bgcolor="#DCE2E7"><center>
+          <font color="#FF9933" size="+2"><strong><em><a href="http://www.javasonics.com/" target="_top"> <font face="Verdana, Arial, Helvetica, sans-serif">JavaSonics</font></a></em> </strong></font>
+        </center></td>
+      <td width="60" bgcolor="#DCE2E7"><center>
+          <h1>SDK</h1>
+        </center></td>
+      <td bgcolor="#DCE2E7"><center>
+          <h1><!-- InstanceBeginEditable name="mainHeading" -->ListenUp Example<!-- InstanceEndEditable --></h1>
+        </center></td>
+    </tr>
+  </table>
+</center>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td valign="top" width="100" bgcolor="#D7E5F2"><br>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/" target="_top">Web&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../index.html" target="_top">SDK&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../docs/index.html" target="_top">Docs</a></p>
+      <p><a class="sidenavbar" href="../php_test/index.html" target="_top">Test&nbsp;PHP</a></p>
+      <p><a class="sidenavbar" href="../asp_test/index.html" target="_top">Test&nbsp;ASP</a></p>
+      <p><a class="sidenavbar" href="../asp_net_test/index.html" target="_top">Test&nbsp;ASP.NET</a></p>
+      <p><a class="sidenavbar" href="index.html" target="_top">Examples</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/demos/" target="_top">Demos</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/downloads/" target="_top">Download</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/sales/" target="_top">Purchase</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/support/" target="_top">Support</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/forum/" target="_top">Forum</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/login/" target="_top">Login</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/contacts.php" target="_top">Contact&nbsp;Us</a></p>
+      <p><a class="sidenavbar" href="http://www.mobileer.com/" target="_blank">Company</a></p>
+      <br>
+    </td>
+    <td valign="top"><div class="primary"> <!-- InstanceBeginEditable name="primaryContent" -->
+        <h2>Text Fields for User Data Entry</h2>
+        <p> You can define text fields in the ListenUp applet. The user can enter information that will be sent to the server along with the audio recording. </p>
+        <blockquote>
+          <pre>&lt;!-- Set width for label column so fields line up. --&gt;<br>&lt;param name=&quot;minFieldLabelWidth&quot; value=&quot;70&quot;&gt;
+
+&lt;!-- Define custom text entry fields. --&gt;<br>&lt;param name=&quot;fieldName_1&quot; value=&quot;comment&quot;&gt;<br>&lt;param name=&quot;fieldLabel_1&quot; value=&quot;Comment:&quot;&gt;<br>&lt;param name=&quot;fieldDefault_1&quot; value=&quot;enter comment here&quot;&gt;
+
+
+&lt;param name=&quot;fieldName_2&quot; value=&quot;user_name&quot;&gt;
+&lt;param name=&quot;fieldLabel_2&quot; value=&quot;Name:&quot;&gt;</pre>
+          <pre> &lt;!-- Use a big text area for long messages. --&gt;
+ &lt;param name=&quot;fieldName_3&quot; value=&quot;message&quot;&gt;
+ &lt;param name=&quot;fieldLabel_3&quot; value=&quot;Message:&quot;&gt;
+ &lt;param name=&quot;fieldRows_3&quot; value=&quot;10&quot;&gt;
+ &lt;!-- Hidden field that will not appear to user but
+             will be passed to server. Hidden because zero rows. --&gt;
+ &lt;param name=&quot;fieldRows_4&quot; value=&quot;0&quot;&gt;
+ &lt;param name=&quot;fieldDefault_4&quot; value=&quot;AW007315&quot;&gt;
+ &lt;param name=&quot;fieldName_4&quot; value=&quot;customer_id&quot;&gt;</pre>
+        </blockquote>
+        <p>These values can then be used in your scripts just like any FORM variable. For example, in PHP, to get the &quot;user_name&quot;:<br>
+        </p>
+        <pre>
+    $userName = strip_tags($_POST[user_name]); </pre>
+        <p>
+          <applet
+    CODE="com.softsynth.javasonics.recplay.RecorderUploadApplet"
+    CODEBASE="../codebase"
+    ARCHIVE="JavaSonicsListenUp.jar,OggXiphSpeexJS.jar"
+    NAME="ListenUpRecorder"
+    WIDTH="400" HEIGHT="350">
+            
+            <param name="frameRate" value="11025.0">
+            <param name="numChannels" value="1">
+            <param name="maxRecordTime" value="5.0">
+            <param name="uploadFileName" value="whatever.wav">
+            <param name="uploadURL" value="stub_success.txt">
+            <!-- Set width for label column so fields line up. -->
+            <param name="minFieldLabelWidth" value="90">
+            <!-- Define custom text entry fields. -->
+            <param name="fieldName_1" value="comment">
+            <param name="fieldLabel_1" value="Comment:">
+            <param name="fieldDefault_1" value="enter comment here">
+            <param name="fieldName_2" value="user_name">
+            <param name="fieldLabel_2" value="Name:">
+            <!-- Use a big text area for long messages. -->
+            <param name="fieldName_3" value="message">
+            <param name="fieldLabel_3" value="Message:">
+            <param name="fieldRows_3" value="10">
+            <!-- Hidden field that will not appear to user but
+		will be passed to server. Hidden because zero rows. -->
+            <param name="fieldRows_4" value="0">
+            <param name="fieldDefault_4" value="AW007315">
+            <param name="fieldName_4" value="customer_id">
+            If you see this text then Java is disabled in your browser. Please download the Sun Java Plugin from "www.sun.com".
+          </applet>
+        </p>
+        <p>If you click Send when running off your local hard disk then you will probably see an error about not being able to connect. That is because you need to post to an actual web server.</p>
+    <!-- InstanceEndEditable --> </div></td>
+  </tr>
+</table>
+<br>
+<div align="left"> &copy; 2001-2006 <a href="http://www.mobileer.com/">Mobileer, Inc.</a> &nbsp;&nbsp;This page is from the ListenUp&nbsp;SDK. You can download the SDK from <a href="http://www.javasonics.com/downloads/">here</a>.</div>
+</body>
+<!-- InstanceEnd --></html>

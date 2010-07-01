@@ -1,0 +1,2 @@
+ERROR pretend an error occured
+This is just a stub file used to test error handling.

@@ -1,0 +1,2 @@
+This is just a stub file for testing. It can be used to simulate a successful upload.
+SUCCESS pretended to upload file

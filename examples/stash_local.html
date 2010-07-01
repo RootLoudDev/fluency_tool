@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/sdkDoc.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../style_sdk.css" rel="stylesheet" type="text/css"/>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Test ListenUp - Upload WAV</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+	<meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+	<meta name="KeyWords" content="Java, audio, input, output, JavaSonics, recording, plugin, API">
+	<meta name="Description" content="Java API for audio I/O.">
+    
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<center>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+      <td width="200" bgcolor="#DCE2E7"><center>
+          <font color="#FF9933" size="+2"><strong><em><a href="http://www.javasonics.com/" target="_top"> <font face="Verdana, Arial, Helvetica, sans-serif">JavaSonics</font></a></em> </strong></font>
+        </center></td>
+      <td width="60" bgcolor="#DCE2E7"><center>
+          <h1>SDK</h1>
+        </center></td>
+      <td bgcolor="#DCE2E7"><center>
+          <h1><!-- InstanceBeginEditable name="mainHeading" -->ListenUp Example <!-- InstanceEndEditable --></h1>
+        </center></td>
+    </tr>
+  </table>
+</center>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td valign="top" width="100" bgcolor="#D7E5F2"><br>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/" target="_top">Web&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../index.html" target="_top">SDK&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../docs/index.html" target="_top">Docs</a></p>
+      <p><a class="sidenavbar" href="../php_test/index.html" target="_top">Test&nbsp;PHP</a></p>
+      <p><a class="sidenavbar" href="../asp_test/index.html" target="_top">Test&nbsp;ASP</a></p>
+      <p><a class="sidenavbar" href="../asp_net_test/index.html" target="_top">Test&nbsp;ASP.NET</a></p>
+      <p><a class="sidenavbar" href="index.html" target="_top">Examples</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/demos/" target="_top">Demos</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/downloads/" target="_top">Download</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/sales/" target="_top">Purchase</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/support/" target="_top">Support</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/forum/" target="_top">Forum</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/login/" target="_top">Login</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/contacts.php" target="_top">Contact&nbsp;Us</a></p>
+      <p><a class="sidenavbar" href="http://www.mobileer.com/" target="_blank">Company</a></p>
+      <br>
+    </td>
+    <td valign="top"><div class="primary"> <!-- InstanceBeginEditable name="primaryContent" -->
+
+<h2>Save files locally using  &quot;stashBeforeSend&quot;</h2>
+<p>Sometimes a user could lose a recording if the server or the network was down and they could not upload the recording. You can  request that a copy of the recording be stashed on the local hard drive by setting the &quot;stashBeforeSend&quot; parameter. </p>
+<blockquote>
+  <pre>&lt;param name=&quot;stashBeforeSend&quot; value=&quot;yes&quot; /&gt;</pre>
+</blockquote>
+<p>We say &quot;stash&quot; instead of &quot;save&quot; because the file is not permanently saved. It will be kept for several days then erased. This is to prevent the users drive from filling up with old files. Try this:</p>
+<ol>
+  <li>Right click on waveform. (On a Mac with a one-button mouse use &quot;Control+click&quot;.)</li>
+  <li>The very first time you do this you will probably see the &quot;Load Most Recently Stashed Recording&quot; item is disabled.</li>
+  <li>Record a message then hit &quot;Send&quot;.</li>
+  <li>You will see an error message saying the recording was not uploaded. This is a simulated error.</li>
+  <li>Click <a href="stash_local.html">here</a> to reload this page. Notice the recording is gone.</li>
+  <li>Right click on waveform.</li>
+  <li>Select the &quot;Load Most Recent Recording&quot; item.</li>
+  <li>Your previous recording will be loaded.</li>
+</ol>
+<p>
+              <applet
+    CODE="com.softsynth.javasonics.recplay.RecorderUploadApplet"
+    CODEBASE="../codebase"
+    ARCHIVE="JavaSonicsListenUp.jar,OggXiphSpeexJS.jar"
+    NAME="JavaSonicRecorderUploader"
+    WIDTH="651" HEIGHT="141">
+            	<param name="compressorEnable" value="yes">
+                  <param name="frameRate" value="16000.0">
+                  <param name="numChannels" value="1">
+                  <param name="maxRecordTime" value="120.0">
+                  <param name="format" value="speex">
+                  <param name="speexQuality" value="3.0">
+                  <!-- Enable Editing of Recording -->
+                  <param name="editable" value="yes">
+                  <param name="putTimeOnTop" value="yes">
+                  <param name="showWaveform" value="yes">
+                  <param name="stashBeforeSend" value="yes">
+<?php
+	echo '<param name="uploadFileName" value="msg_' . time() . ".spx\">\n";
+?>
+                  <param name="uploadURL" value="stub_error.txt">
+              </applet>        <p>See <a href="index.html">more examples</a>.              
+              <p> 
+                        <!-- InstanceEndEditable --> </div></td>
+  </tr>
+</table>
+<br>
+<div align="left"> &copy; 2001-2006 <a href="http://www.mobileer.com/">Mobileer, Inc.</a> &nbsp;&nbsp;This page is from the ListenUp&nbsp;SDK. You can download the SDK from <a href="http://www.javasonics.com/downloads/">here</a>.</div>
+</body>
+<!-- InstanceEnd --></html>

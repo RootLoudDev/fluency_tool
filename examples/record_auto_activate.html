@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/sdkDoc.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../style_sdk.css" rel="stylesheet" type="text/css"/>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>ListenUp - Automatic Activation</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+	<meta name="GENERATOR" content="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]">
+	<meta name="KeyWords" content="Java, audio, input, output, JavaSonics, recording, plugin, API">
+	<meta name="Description" content="Java API for audio I/O.">
+    
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<center>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+      <td width="200" bgcolor="#DCE2E7"><center>
+          <font color="#FF9933" size="+2"><strong><em><a href="http://www.javasonics.com/" target="_top"> <font face="Verdana, Arial, Helvetica, sans-serif">JavaSonics</font></a></em> </strong></font>
+        </center></td>
+      <td width="60" bgcolor="#DCE2E7"><center>
+          <h1>SDK</h1>
+        </center></td>
+      <td bgcolor="#DCE2E7"><center>
+          <h1><!-- InstanceBeginEditable name="mainHeading" -->ListenUp Example <!-- InstanceEndEditable --></h1>
+        </center></td>
+    </tr>
+  </table>
+</center>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td valign="top" width="100" bgcolor="#D7E5F2"><br>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/" target="_top">Web&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../index.html" target="_top">SDK&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../docs/index.html" target="_top">Docs</a></p>
+      <p><a class="sidenavbar" href="../php_test/index.html" target="_top">Test&nbsp;PHP</a></p>
+      <p><a class="sidenavbar" href="../asp_test/index.html" target="_top">Test&nbsp;ASP</a></p>
+      <p><a class="sidenavbar" href="../asp_net_test/index.html" target="_top">Test&nbsp;ASP.NET</a></p>
+      <p><a class="sidenavbar" href="index.html" target="_top">Examples</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/demos/" target="_top">Demos</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/downloads/" target="_top">Download</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/sales/" target="_top">Purchase</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/support/" target="_top">Support</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/forum/" target="_top">Forum</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/login/" target="_top">Login</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/contacts.php" target="_top">Contact&nbsp;Us</a></p>
+      <p><a class="sidenavbar" href="http://www.mobileer.com/" target="_blank">Company</a></p>
+      <br>
+    </td>
+    <td valign="top"><div class="primary"> <!-- InstanceBeginEditable name="primaryContent" -->
+        <h2 align="left">How to Auto Activate the ListenUp Applet</h2>
+        <p align="left">You may have noticed that with Internet Explorer  you have to click once on any Java Applet before it will respond. This is because a company called <a href="http://en.wikipedia.org/wiki/EOLAS" target="_blank">EOLAS sued Microsoft</a> over the patents for browser plugins. As a workaround, Microsoft was forced to add this &quot;click once&quot; behavior. This is very annoying for users. Luckily there is a workaround that is only annoying to developers but not to users.</p>
+        <p align="left">The solution is to pass your Applet code to JavaScript, which then writes it back to your web page. Follow these steps to avoid the &quot;Click Once to Activate&quot; problem:</p>
+
+          <p>1) Copy the file called &quot;<a href="external_writer.js">external_writer.js</a>&quot; from this folder to your website. It contains:</p>
+          <blockquote>
+<pre>
+function ExternalDocumentWrite( appletCode )
+{
+    document.write( appletCode );
+}</pre></blockquote>
+
+          <p>2) Load that script as follows:</p>
+          <blockquote>
+            <pre>&lt;script type=&quot;text/javascript&quot; src=&quot;external_writer.js&quot;&gt;&lt;/script&gt;</pre>
+          </blockquote>
+          <p>3) Add some script to your page and put your Applet code in a string.</p>
+          <blockquote>
+          
+            <pre>var appletCode = 
+   '&lt;applet CODE=&quot;com.softsynth.javasonics.recplay.RecorderUploadApplet&quot;' +
+   ' ARCHIVE=&quot;JavaSonicsListenUp.jar&quot;' +
+   etcetera ...</pre>
+          </blockquote>
+          <p>4) Pass that string to JavaScript.</p>
+          <blockquote>
+            <pre>ExternalDocumentWrite( appletCode );</pre>
+          </blockquote>
+          <p>Please &quot;View Source&quot; for this page to see how it is done.</p>
+          <p>Note that in the Applet below you can click on the red record button and the Applet will respond immediately.</p>
+          <p>&nbsp;</p>
+          <script type="text/javascript" src="external_writer.js"></script>
+
+<script language="JavaScript">
+	// Put the Applet code in a string so we can pass it to JavaScript.
+ var appletCode = 
+	'<applet CODE="com.softsynth.javasonics.recplay.RecorderUploadApplet"' +
+		' CODEBASE="../codebase"' +
+		' ARCHIVE="JavaSonicsListenUp.jar"' +
+		' NAME="JavaSonicRecorderUploader"' +
+		' WIDTH="353" HEIGHT="110">' +
+		' <param name="speexQuality" value="4.0">' +
+		' <param name="frameRate" value="11025.0">' +
+		' <param name="showWaveform" value="yes">' +
+		' <param name="editable" value="yes">' +
+		' <param name="compressorEnable" value="yes">' +
+		' <param name="uploadURL" value="stub_success.txt">' +
+	' </applet>';
+	// Ask an external script to write that Applet code back to the web page.
+    ExternalDocumentWrite( appletCode );
+</script>
+<p>See <a href="index.html">more examples</a>.</p>
+<p></p>
+    <!-- InstanceEndEditable --> </div></td>
+  </tr>
+</table>
+<br>
+<div align="left"> &copy; 2001-2006 <a href="http://www.mobileer.com/">Mobileer, Inc.</a> &nbsp;&nbsp;This page is from the ListenUp&nbsp;SDK. You can download the SDK from <a href="http://www.javasonics.com/downloads/">here</a>.</div>
+</body>
+<!-- InstanceEnd --></html>

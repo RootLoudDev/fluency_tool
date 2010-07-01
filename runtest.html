@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<script src="script/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+	
+		<title></title>
+	<script>
+	function run_test(){
+
+	var test_data = $(".test[1]").val();
+	alert(test_data);
+	}
+	</script>	
+	</head>
+	<body>
+		<form name="test">
+		   <table>
+			<tr id="1"><td><input type="text" name="test[]" class="test[]" id="test1" /></td></tr>
+		    <tr id="2"><td><input type="text" name="test[]" class="test[]" id="test2" /></td></tr>
+			<tr id="3"><td><input type="text" name="test[]" class="test[]" id="test3" /></td></tr>
+			</table>
+		</form>
+		<a href="javascript:void(0)" onclick="run_test()">Test</a>
+	</body>
+</html>
+
+

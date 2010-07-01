@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html><!-- InstanceBegin template="/Templates/sdkDoc.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="../../style_sdk.css" rel="stylesheet" type="text/css"/>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>ListenUp and JavaScript</title>
+<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
+<meta name="KeyWords" content="Java, audio, voice, upload, demos, ListenUp">
+<meta name="Description" content="Applet for recording and uploading voice.">
+<script language="javascript">
+
+
+window.onload = touchLoadLiveConnect;
+
+// This function can be used to respond to a successful upload.
+function submitOrPreviewForm()
+{
+	if( document.uploadForm.previewMode )
+	{
+		document.uploadForm.action = 'preview.php';
+	}
+	else
+	{
+		document.uploadForm.action = 'submitted.php';
+    }
+	document.uploadForm.submit();
+}
+
+function delayedSubmitOrPreviewForm()
+{
+    var t=setTimeout("submitOrPreviewForm()",10);
+}
+
+function setRecordingID( recordingID )
+{
+    document.uploadForm.recordingID.value = recordingID;
+	//alert( "Server says the recording ID is " + recordingID );
+}
+
+// Keep checking to see if Applet is loaded.
+// This call to isActive() will be the first LiveConnect call and will hide the delay from the user.
+function touchLoadLiveConnect()
+{
+	if( !document.ListenUpRecorder.isActive() )
+	{
+		alert("touchLoadLiveConnect thinks Applet is NOT active.");
+		// Wait 100 milliseconds and try again.
+		setTimeout('touchLoadLiveConnect()', 100 );
+	}
+	else
+	{
+		alert("touchLoadLiveConnect thinks Applet is active.");
+    	document.uploadForm.previewButton.disabled = 0;
+    	document.uploadForm.submitButton.disabled = 0;
+		if( document.uploadForm.recordingID.value != "unknown" )
+		{
+			var sampleURL = "../../uploads/rec_" + document.uploadForm.recordingID.value + ".wav";
+			document.ListenUpRecorder.loadRecording( sampleURL );
+		}
+	}
+}
+
+// Tell Java Applet to send other information along with recorded sound file.
+function uploadMessage()
+{
+	if( !document.ListenUpRecorder.isActive() )
+	{
+		alert("Applet is not yet ready!");
+	}
+	else
+	{
+	    var stopped = document.ListenUpRecorder.isStopped();
+	    var playable = document.ListenUpRecorder.isPlayable();
+		var sendable = stopped && playable;
+		
+		if( !sendable )
+		{
+			submitOrPreviewForm();
+		}
+		else
+		{
+    		//document.uploadForm.previewButton.disabled = 1;
+    		//document.uploadForm.submitButton.disabled = 1;
+    		//document.uploadForm.recordingID.value = "pending";
+			document.ListenUpRecorder.setUploadCompletionScript( "delayedSubmitOrPreviewForm();" );
+			// Send info and recording to server.
+			document.ListenUpRecorder.sendRecordedMessage();
+			// The uploading will happen asynchronously so do not follow this
+			// code with a redirection to another page. Otherwise the ListenUp
+			// Applet will be unloaded before the upload has completed.
+			// If you want to go to another page as soon as the upload has finished
+			// then please use the refreshURL parameter, or use setUploadCompletionScript()
+			// above to cause the redirection. Then the redirection will occur after the upload has finished.
+		}
+	}
+	return false;
+}
+
+function submitRecording()
+{
+	document.uploadForm.previewMode = false;
+	uploadMessage();
+}
+function previewRecording()
+{
+	document.uploadForm.previewMode = true;
+	uploadMessage();
+}
+
+
+// Change HTML in a DIV or other element
+function htmlChange(id,message){
+	d=document;
+	re = d.all ? d.all[id] : d.getElementById(id);
+	re.innerHTML=message;
+}
+
+</script>
+<!-- InstanceEndEditable -->
+</head>
+<body>
+<center>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr valign="middle">
+      <td width="200" bgcolor="#DCE2E7"><center>
+          <font color="#FF9933" size="+2"><strong><em><a href="http://www.javasonics.com/" target="_top"> <font face="Verdana, Arial, Helvetica, sans-serif">JavaSonics</font></a></em> </strong></font>
+        </center></td>
+      <td width="60" bgcolor="#DCE2E7"><center>
+          <h1>SDK</h1>
+        </center></td>
+      <td bgcolor="#DCE2E7"><center>
+          <h1><!-- InstanceBeginEditable name="mainHeading" -->ListenUp Example<!-- InstanceEndEditable --></h1>
+        </center></td>
+    </tr>
+  </table>
+</center>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td valign="top" width="100" bgcolor="#D7E5F2"><br>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/" target="_top">Web&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../../index.html" target="_top">SDK&nbsp;Home</a></p>
+      <p><a class="sidenavbar" href="../../docs/index.html" target="_top">Docs</a></p>
+      <p><a class="sidenavbar" href="../../php_test/index.html" target="_top">Test&nbsp;PHP</a></p>
+      <p><a class="sidenavbar" href="../../asp_test/index.html" target="_top">Test&nbsp;ASP</a></p>
+      <p><a class="sidenavbar" href="../../asp_net_test/index.html" target="_top">Test&nbsp;ASP.NET</a></p>
+      <p><a class="sidenavbar" href="../index.html" target="_top">Examples</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/demos/" target="_top">Demos</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/downloads/" target="_top">Download</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/sales/" target="_top">Purchase</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/support/" target="_top">Support</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/forum/" target="_top">Forum</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/login/" target="_top">Login</a></p>
+      <p><a class="sidenavbar" href="http://www.javasonics.com/contacts.php" target="_top">Contact&nbsp;Us</a></p>
+      <p><a class="sidenavbar" href="http://www.mobileer.com/" target="_blank">Company</a></p>
+      <br>
+    </td>
+    <td valign="top"><div class="primary"> <!-- InstanceBeginEditable name="primaryContent" -->
+        <h2>Using JavaScript to Send a Recording with a FORM</h2>
+        <p>This demonstrates the combination of an HTML FORM and the ListenUp Applet. JavaScript calls the ListenUp Applet method to upload the recording and wait for a result. It then sends the FORM.</p>
+        <p>This HTML FORM uses JavaScript to call the Java Applet. It requires LiveConnect, which may only work on Windows, or on Mac with Firefox or Safari 2.0.2 or later!. </p>
+        <form NAME="uploadForm">
+          <table cellspacing="0" cellpadding="3" bgcolor="#E6E3D0" cols="2">
+            <tr>
+              <td width="100" align="right"> Voice </td>
+              <td><applet
+    mayscript="true"
+    CODE="com.softsynth.javasonics.recplay.RecorderUploadApplet"
+    CODEBASE="../../codebase"
+    ARCHIVE="JavaSonicsListenUp.jar"
+    NAME="ListenUpRecorder"
+    WIDTH="400" HEIGHT="100">
+                  <!-- Disable SEND button in Applet so we can send from JavaScript. -->
+                  <param name="showSendButton" value="no">
+                  <param name="frameRate" value="11025.0">
+                  <param name="numChannels" value="1">
+                  <param name="maxRecordTime" value="30.0">
+                  <param name="uploadFileName" value="whatever.wav">
+                  <param name="uploadURL" value="handle_upload_wav.php">
+                  If you see this text then Java is disabled in your browser. Please download the Sun Java Plugin from "www.sun.com".
+                </applet>
+              </td>
+            </tr>
+            <tr>
+              <td width="100" align="right"><div align="right">Comment </div></td>
+              <td><input type=text name="commentText" value="blah blah blah" size=65>
+              </td>
+            </tr>
+            <tr>
+              <td width="100" align="right"><div align="right">Username</div></td>
+              <td><input type="text" name="userName" value="joe" size=65>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><center>
+                  <input TYPE="BUTTON" NAME="previewButton"   VALUE="Preview" onClick="if(!this.disabled) previewRecording();">
+                </center></td>
+              <td colspan="2"><center>
+                  <input TYPE="BUTTON" NAME="submitButton"   VALUE="Submit" onClick="if(!this.disabled) submitRecording();">
+                </center></td>
+            </tr>
+          </table>
+          <input type="HIDDEN" name="recordingID" value="unknown">
+        </form>
+        <script language="javascript">
+	// Start off with the buttons enabled.
+    document.uploadForm.previewButton.disabled = 0;
+    document.uploadForm.submitButton.disabled = 0;
+
+//-->
+</script>
+        <p>See <a href="../index.html">more examples</a>.</p>
+        <p></p>
+        <!-- InstanceEndEditable --> </div></td>
+  </tr>
+</table>
+<br>
+<div align="left"> &copy; 2001-2006 <a href="http://www.mobileer.com/">Mobileer, Inc.</a> &nbsp;&nbsp;This page is from the ListenUp&nbsp;SDK. You can download the SDK from <a href="http://www.javasonics.com/downloads/">here</a>.</div>
+</body>
+<!-- InstanceEnd --></html>
