@@ -1,12 +1,33 @@
 <?php
-$host = 'localhost';
-$username = 'root';
-$password = '';
-$database = 'fluency_tool';
+class DBConnect{
+
+    var $host;
+    var $login;
+    var $password;
+    var $database;
+
+    function setHost($host, $login, $password){
+
+        $this->host = $host;
+        $this->login = $login;
+        $this->password = $password;
 
 
-mysql_connect($host, $username, $password) or die(mysql_error());
-//echo "Connected to MySQL<br />";
-mysql_select_db($database) or die(mysql_error());
-//echo "Connected to Database";
+    }
+
+    function setDatabase($database){
+        $this->database = $database;
+    }
+
+    function connectHost(){
+
+        mysql_connect($this->host, $this->login, $this->password) or die(mysql_error());
+
+    }
+
+    function connectDB(){
+
+        mysql_select_db($this->database) or die(mysql_error());
+    }
+}
 ?>

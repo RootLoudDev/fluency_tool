@@ -1,6 +1,6 @@
 <?php
-include_once 'includes/global-inc.php';
-require_once 'includes/dbconnect.php';
+
+require_once 'includes/_bootstrap.php';
 
 	if($_POST['user']!='' && $_POST['pass']!='')
 	{
@@ -76,7 +76,7 @@ Grab your reprint binder and login to get started.
         <div id="login"> <br />
           <br />
           <table width="211" height="71" border="0" align="center">
-            <form id="form1" name="form1" method="post" action="<?php echo PhpSelf();?>">
+            <form id="form1" name="form1" method="post" action="index.php">
               <tr>
                 <td width="64" height="38" align="right" class="black">User</td>
                 <td width="170"><label>
