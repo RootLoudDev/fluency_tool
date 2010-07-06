@@ -11,22 +11,10 @@ $userDir=$userassociate;
 $uploadsDir = "./uploads/" . $userDir;
 
 // Get user data
-$queryuser = "SELECT firstname, lastname, scenario1, scenario2, scenario3, scenario4, scenario5, scenario6, scenario7
-			FROM users WHERE ID='$associateid'";
-$resultuser = mysql_query($queryuser);
+$currentUser = new User;
+$currentUser->setUserFromID($_SESSION['user_id']);
+$currentUser->getScenarios();
 
-if (mysql_num_rows($resultuser) != 1)
-{
-	echo ("unexpected result in user query");
-}
-
-$rowuser = mysql_fetch_row($resultuser);
-$fullname = "$rowuser[0] $rowuser[1]";	
-//// Update scenario results 
-for ($i=1; $i<=7; $i++)
-{
-	$scenario[$i] = $rowuser[($i+1)];
-}
 	
 // Get feedback data
 $queryfeedback = "SELECT fbscenario, fbtext, fbtype, firstname, lastname FROM feedback, users
@@ -701,12 +689,12 @@ function appletLoaded()
 </div>
 </div>
 
-<script language="javascript">
+<script type="javascript">
 if (userIsReviewer == "1")
 {	
-	document.getElementById("navmenu").innerHTML = '<?=$fullname?> <a href="logout.php">Log Out </a><br/><br/><a href="manager.php"> Peer Review </a>';
+	document.getElementById("navmenu").innerHTML = '<?=$currentUser->username?> <a href="logout.php">Log Out </a><br/><br/><a href="manager.php"> Peer Review </a>';
 } else {
-document.getElementById("navmenu").innerHTML = '<?=$fullname?> <a href="logout.php"> Log Out </a>';
+document.getElementById("navmenu").innerHTML = '<?=$currentUser->username?> <a href="logout.php"> Log Out </a>';
 } 
 </script>
 
