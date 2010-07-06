@@ -5,7 +5,7 @@ class DBConnect{
     var $login;
     var $password;
     var $database;
-
+    
     function setHost($host, $login, $password){
 
         $this->host = $host;
