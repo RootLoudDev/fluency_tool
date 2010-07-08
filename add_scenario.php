@@ -1,5 +1,5 @@
 <?php
-include_once 'includes/dbconnect.php';
+include_once('includes/_bootstrap.php');
 $scenario_title = $_GET['scenario_title'];
 $scenario_description = $_GET['scenario_description'];
 $scenario_resource = $_GET['scenario_resources'];

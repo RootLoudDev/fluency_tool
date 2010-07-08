@@ -15,6 +15,12 @@ $currentUser = new User;
 $currentUser->setUserFromID($_SESSION['user_id']);
 $currentUser->getScenarios();
 
+//// Update scenario results
+for ($i=1; $i<=7; $i++)
+{
+	$scenario[$i] = $currentUser->scenarios[($i-1)];
+}
+
 	
 // Get feedback data
 $queryfeedback = "SELECT fbscenario, fbtext, fbtype, firstname, lastname FROM feedback, users
@@ -52,69 +58,15 @@ if (mysql_num_rows($resultpeer) >= 1)
 <title>PULMOZYME: Associate Screen</title>
 <link href="styles.css" rel="stylesheet" type="text/css" />
 
-<!-- START SLIDE JAVASCRIPT -->
+<link href="css/start/jquery-ui-1.8.2.custom.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="script/jquery-min.js"></script>
-<script type="text/javascript" src="animatedcollapse.js">
-/***********************************************
-* Animated Collapsible DIV v2.4- (c) Dynamic Drive DHTML code library (www.dynamicdrive.com)
-* This notice MUST stay intact for legal use
-* Visit Dynamic Drive at http://www.dynamicdrive.com/ for this script and 100s more
-***********************************************/
-</script>
+<script type="text/javascript" src="script/jquery-ui-1.8.2.custom.min.js"></script>
 <script type="text/javascript">
-animatedcollapse.addDiv('scen1', 'fade=0,speed=400,group=scen, hide=0')
-animatedcollapse.addDiv('scen2', 'fade=0,speed=400,group=scen, hide=1')
-animatedcollapse.addDiv('scen3', 'fade=0,speed=400,group=scen, hide=1')
-animatedcollapse.addDiv('scen4', 'fade=0,speed=400,group=scen, hide=1')
-animatedcollapse.addDiv('scen5', 'fade=0,speed=400,group=scen, hide=1')
-animatedcollapse.addDiv('scen6', 'fade=0,speed=400,group=scen, hide=1')
-animatedcollapse.addDiv('scen7', 'fade=0,speed=400,group=scen, hide=1')
+	$(function() {
+		$("#accordion").accordion();
+	});
+	</script>
 
-animatedcollapse.ontoggle=function($, divobj, state){ //fires each time a DIV is expanded/contracted
-	//$: Access to jQuery
-	//divobj: DOM reference to DIV being expanded/ collapsed. Use "divobj.id" to get its ID
-	//state: "block" or "none", depending on state
-	if (divobj.id=="scen1") {
-		if (state=="block") {
-			selectScenario('one');
-		}
-	}
-	if (divobj.id=="scen2") {
-		if (state=="block") {
-			selectScenario('two');
-		}
-	}
-	if (divobj.id=="scen3") {
-		if (state=="block") {
-			selectScenario('three');
-		} 
-	}
-	if (divobj.id=="scen4") {
-		if (state=="block") {
-			selectScenario('four');
-		} 
-	}
-	if (divobj.id=="scen5") {
-		if (state=="block") {
-			selectScenario('five');
-		} 
-	}
-	if (divobj.id=="scen6") {
-		if (state=="block") {
-			selectScenario('six');
-		} 
-	}
-	if (divobj.id=="scen7") {
-		if (state=="block") {
-			selectScenario('seven');
-		}
-	}
-}
-
-//animatedcollapse.init()
-
-</script>
-<!--END SLIDE JAVASCRIPT-->
 <script language="javascript">
 	var scenarioDone=new Array(7);
 		scenarioDone[1] = "<?php echo $scenario[1] ?>"
@@ -424,151 +376,61 @@ function appletLoaded()
   </ol>
 </div>
 
-<a href="#" rel="toggle[scen1]" data-openimage="images/scenario1-close.jpg" data-closedimage="images/scenario1.jpg"><img src="collapse.jpg" border="0" /></a>
+<!-- Begin Scenarios -->
 
-<div id="scen1" class="drop" style="text-align:left">
-  <p><strong>Description of the Situation</strong></p>
-  <p>You are meeting with Dr. Leonard, a pediatric pulmonologist, for the second time. You begin the conversation with some open-ended questions to explore Dr. Leonard‘s thoughts about early disease and clinical findings.&nbsp; Dr. Leonard replies that each patient presents differently, and some patients show early symptoms while others do not.&nbsp; He asks if there is any new data to suggest that disease starts early in the course of CF.</p>
-  <hr />
-  <p>
-    <strong>Description of Resources a</strong><strong>nd Response</strong></p>
-<p>Response would include a discussion of data suggesting early disease in CF.</p>
-  <p><strong><u>Resources</u></strong><br />
-    Resources to use during the disease state discussion include:</p>
-  <ul>
-    <li>Disease education brochure: <i>Cystic Fibrosis (CF); Early Disease Processes and Their Role in CF Lung Disease</i> - data supporting the fact that there is lung disease/damage early in the course of disease, even when FEV<sub>1</sub> is normal.</li>
-    <li>Kirchner PRC-approved article: Shows increased DNA levels in infants with CF – and in some cases this was before there was radiographic evidence of disease.</li>
-    <li>Sly PRC-approved article: Radiographic evidence of lung disease/ free neutrophilic elastase activity associated with structural lung disease.</li>
-  </ul>
-  <p>For your background information only: Reprint Binder</p>
-  <ul>
-    <li>Paul article: BALF study showing evidence of neutrophilic airway inflammation in patients with normal lung function.</li>
-    <li>Brody article: High-Resolution CT in Young Patients showing that bronchiectasis is common in young children with CF with normal PFT’s.</li>
-    <li>Tiddens article: Indicating a discrepancy between lung function and structural damage.</li>
-    <li>Terrheggen-Lagro article: Study in young children with CF showing that chest radiograph scores worsen significantly over time even while lung function remains stable.</li>
-    <li>Muhlebach article: Data showing that the ratio of neutrophils or of IL-8 to bacteria in BALF was significantly greater for CF patients compared with control subjects, regardless of pathogen.</li>
-  </ul>
+<div id="accordion">
+<?php
+  $results = mysql_query("SELECT * FROM scenarios");
+while($row = mysql_fetch_row($results)){
+
+    $id = $row[0];
+    $scenarioTitle = $row[1];
+    $scenarioDescription = $row[2];
+    $scenarioResource = $row[3];
+    ?>
+<h3><a href="#"><?=$scenarioTitle?></a></h3>
+    <div>
+        <p><strong>Description of the Situation</strong></p>
+        <?=$scenarioDescription?>
+        <p>
+        <strong>Description of Resources and Response</strong></p>
+        <p><?=$scenarioResource?></p>
+        <p><strong><u>Resources</u></strong></p>
+            <ul>
+            <?php $resource1Results = mysql_query("SELECT resource from resources WHERE scenarioID = '$id' AND resourceType = 1");
+                while ($row1 = mysql_fetch_array($resource1Results)) {
+                    $resource1 = $row1[0];
+                    ?>
+                    <li><?=$resource1?></li>
+                    <?php
+                }
+            ?>
+
+            </ul>
+        <p>For your background information only: Reprint Binder</p>
+            <ul>
+            <?php $resource2Results = mysql_query("SELECT resource from resources WHERE scenarioID = '$id' AND resourceType = 2");
+                while ($row2 = mysql_fetch_array($resource2Results)) {
+                    $resource2 = $row2[0];
+                    ?>
+                    <li><?=$resource2?></li>
+                    <?php
+                }
+            ?>
+
+            </ul>
+    </div>
+
+<?php
+}
+
+?>
+
+
 </div>
 
-<a href="#" rel="toggle[scen2]" data-openimage="images/scenario2-close.jpg" data-closedimage="images/scenario2.jpg"><img src="collapse.jpg" border="0" /></a> 
 
-<div id="scen2" class="drop" style="text-align:left">
-  <p><strong>Description of the Situation</strong></p>
-  <p>You are meeting with Dr. Reynolds, a pediatric pulmonologist who recently completed her fellowship program and joined the Cystic Fibrosis Care Center. This is your first meeting with Dr. Reynolds. You begin the conversation with an open-ended question: Can you tell me about your experience with Pulmozyme? Dr. Reynolds states that she cared for several CF patients on Pulmozyme during her fellowship. She knows that Pulmozyme is a component of standard therapy for the patient with CF, but asks if you would review the proposed mechanism of action. 
-  <hr />
-  <p><strong>Description of Resources and Response</strong></p>
-  <p>Response would include a discussion of Pulmozyme’s proposed MOA and use in the treatment of cystic fibrosis.</p>
-  <p><strong><u>Resources</u></strong><br />
-    Resources used during a Pulmozyme discussion:</p>
-  <ul>
-    <li>Pulmozyme education brochure: Review of abnormal mucus and disease progression, how Pulmozyme addresses abnormal mucus, proposed MOA, improvement in lung function, and reduction in risk of exacerbation, thereby delaying disease progression.</li>
-    <li>Pulmozyme PI: Review of Pulmozyme’s impact on lung function and respiratory exacerbation rate.</li>
-  </ul>
-</div>
-
-<a href="#" rel="toggle[scen3]" data-openimage="images/scenario3-close.jpg" data-closedimage="images/scenario3.jpg"><img src="collapse.jpg" border="0" /></a>
-<div id="scen3" class="drop" style="text-align:left">
-<p><strong>Description of the Situation</strong></p>
-<p>You are meeting with Dr. Peters, a pulmonologist who has recently moved to the area. He has just joined a relatively new adult CF program at the CF Center. In your conversation with Dr. Peters, you learn that his previous experience has been in a general adult pulmonary clinic, where he saw primarily COPD and lung cancer patients. He is excited about this new opportunity to specialize in CF. He asks you to tell him about the Pulmozyme data for CF, particularly data on BID dosing for adults.</p>
-<hr />
-<p><strong>Description of Resources and Response</strong></p>
-<p>Response would include a discussion of the efficacy and proposed MOA of Pulmozyme.</p>
-<p><strong><u>Resources</u></strong><br />
-  Resources to use during the discussion:</p>
-<ul>
-  <li>Fuchs PRC-approved article: discuss the design, methods, &nbsp;and results </li>
-  <li>Pulmozyme PI: Clinical data, emphasis on the data with BID dosing in patients&nbsp; ≥21 years of age</li>
-  <li>Refer to Medical Communications for further information on BID dosing</li>
-</ul>
-</div>
-
-<a href="#" rel="toggle[scen4]" data-openimage="images/scenario4-close.jpg" data-closedimage="images/scenario4.jpg"><img src="collapse.jpg" border="0" /></a> 
-<div id="scen4" class="drop" style="text-align:left">
-  <p><strong>Description of the Situation</strong></p>
-  <p>You are meeting with Dr. James, a pediatric pulmonologist at a small rural pulmonary clinic. He manages the care for a small number of CF patients who are unable to travel to the regional CF center. He is familiar with Pulmozyme and states that he generally prescribes Pulmozyme only for his patients with severe disease who are having frequent exacerbations requiring hospitalization. The patients are already burdened with daily care, and this avoids the time and expense of another added daily treatment until it is really needed.</p>
-  <p><strong>Description of the Resources and Response</strong></p>
-  <p>Response could incorporate disease state education on the first visit, followed by Pulmozyme proposed MOA discussions on subsequent visits. </p>
-  <hr />
-  <p><strong><u>Resources for Initial Visit</u></strong><br />
-    Resources to use during disease state discussion include:</p>
-  <ul>
-    <li>Disease education brochure: <i>Cystic Fibrosis (CF): Early Disease Processes and Their Role in CF Lung Disease</i></li>
-    <li>Konstan (2007) PRC-approved article: Identifying risk factors for rate of decline in FEV<sub>1</sub></li>
-    <li>Konstan (2003) PRC-approved article: Growth and nutritional indexes in early life predict pulmonary function in CF</li>
-    <li>Cory PRC-approved article: Normal pulmonary function did not predict a slower rate of decline</li>
-  </ul>
-  <p>For your background information only: Reprint Binder</p>
-  <ul>
-    <li>Flume (2007) article: Practice guidelines recommending chronic use of Pulmozyme in mild, moderate and severe disease</li>
-    <li>Tiddens article: CF lung inflammation is early, sustained and severe. The same is true for lung damage</li>
-  </ul>
-<p><strong><u>Resources for Return (Separate) Visit</u></strong><br />
-    Resources to use during a Pulmozyme discussion include:</p>
-  <ul>
-    <li>Pulmozyme education brochure: Review Section 1 on abnormal mucus and disease progression; Section 3 regarding how Pulmozyme addresses abnormal mucus; Section 4 on prescribing Pulmozyme along with other standard therapies to improve lung function and reduce exacerbation risk, thereby delaying disease progression</li>
-    <li>Pulmozyme PI: Clinical trial data, indication for use</li>
-  </ul>
-</div>
-
-<a href="#" rel="toggle[scen5]" data-openimage="images/scenario5-close.jpg" data-closedimage="images/scenario5.jpg"><img src="collapse.jpg" border="0" /></a> 
-
-<div id="scen5" class="drop" style="text-align:left">
-  <p><strong>Description of the Situation</strong></p>
-  <p>You are meeting with Dr. Westin, the pulmonologist at a small CF Center. As you are leaving his office you run into the office administrator in the hallway. She stops you and states that she has been really frustrated working with insurance carriers for the last 2 patients that have started on Pulmozyme. </p>
-  <hr />
-  <p><strong>Description of Resources and Response </strong></p>
-  <p>The response would incorporate a discussion of services for uninsured patients, underinsured patients, and benefits investigation through Access Solutions and the required forms.</p>
-  <p><strong><u>Resources</u></strong><br />
-    Response would incorporate:</p>
-  <ul>
-    <li>Access Solutions brochure </li>
-    <li>SMN and PAN forms</li>
-  </ul>
-</div>
-
-<a href="#" rel="toggle[scen6]" data-openimage="images/scenario6-close.jpg" data-closedimage="images/scenario6.jpg"><img src="collapse.jpg" border="0" /></a> 
-
-<div id="scen6" class="drop" style="text-align:left">
-  <p><strong>Description of the Situation</strong></p>
-  <p>You are meeting with the nursing staff at the CF Center and you run into Dr. Levine, one of the pediatric pulmonologists. She tells you that she just saw a 4 year-old patient who has progressive lung disease and increasing frequency of infection and pulmonary exacerbations. She says she is thinking about starting him on Pulmozyme and wants to know what data is available for that age group. She asks if insurance will cover the medication.</p>
-  <hr />
-  <p><strong>Description of Resources and Response</strong></p>
-  <p>The response would incorporate an emphasis that use of Pulmozyme in children under 5 years of age is at the discretion of the pulmonologist.</p>
-  <p><strong><u>Resources</u></strong><br />
-    Resources to use during the discussion include: </p>
-  <ul>
-    <li>Pulmozyme PI: With emphasis that use in children under 5 years of age is at the discretion of the pulmonologist</li>
-    <li>Access Solutions program brochure</li>
-    <li>Referral to Medical Communications Department &nbsp;</li>
-  </ul>
-  <p>For your background information only: Reprint Binder</p>
-  <ul>
-    <li>Wagener article: Aerosol delivery and safety of recombinant human deoxyribonuclease in young children with cystic fibrosis: a bronchoscopic study</li>
-  </ul>
-</div>
-
-<a href="#" rel="toggle[scen7]" data-openimage="images/scenario7-close.jpg" data-closedimage="images/scenario7.jpg"><img src="collapse.jpg" border="0" /></a> 
-
-<div id="scen7" class="drop" style="text-align:left">
-  <p><strong>Description of the Situation</strong></p>
-  <p>You have an appointment to meet with Dr. Benjamin, an adult pulmonologist, who started the adult CF program at the CF Center 5 years ago. As she sits down to talk with you, Dr. Benjamin shakes her head and says, “I’ve been in clinic all morning, and I keep hearing the same thing from my patients: <em>'Why do you keep adding more medications? Can’t I eliminate something for a change? It takes me so much time to neb all these drugs</em>.'&nbsp; Some of my patients have been on Pulmozyme for 14 years. The hypertonic saline seems to add some benefit. Do they need to be on both Pulmozyme and hypertonic saline?"</p>
-  <p><strong>Description of Resources and Response </strong></p>
-  <hr />
-  <p>The response would incorporate a discussion of the Pulmozyme proposed MOA and efficacy data, as well as Pulmozyme administration.</p>
-  <p><strong><u>Resources&nbsp; </u></strong><br />
-    Resources to include in the discussion: </p>
-  <ul>
-    <li>Pulmozyme education brochure: &nbsp;Review of &nbsp;the proposed MOA for Pulmozyme – Section3: Pulmozyme addresses abnormal mucus; Section 4: Prescribe Pulmozyme to improve lung function and reduce exacerbation risk, thereby delaying disease progression</li>
-    <li>Fuchs PRC-approved article: Reduction of exacerbations, lung function improvement</li>
-    <li>Pulmozyme Patient Education brochure</li>
-    <li>Request for the Medical Communications Department to discuss hypertonic saline</li>
-	<li>"Renewing The Basics" Patient Education  brochure</li>
-  </ul>
-  <p>For your background information only: Reprint Binder</p>
-  <ul>
-    <li>Flume (2007) article: Guidelines for use of chronic medications</li>
-  </ul>
-</div>
+<!--  End Scenarios -->
                   </td>
                 </tr>
                 </table>
@@ -689,7 +551,7 @@ function appletLoaded()
 </div>
 </div>
 
-<script type="javascript">
+<script>
 if (userIsReviewer == "1")
 {	
 	document.getElementById("navmenu").innerHTML = '<?=$currentUser->username?> <a href="logout.php">Log Out </a><br/><br/><a href="manager.php"> Peer Review </a>';

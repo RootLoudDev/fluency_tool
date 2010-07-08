@@ -1,7 +1,7 @@
 <?php
 
-	require_once("db-config.php");
-	db_open ("pulmofluency");
+	require_once("inlcude/_bootstrap.php");
+	
 
 // HTML File Upload processor
 // (C) Phil Burk, http://www.softsynth.com

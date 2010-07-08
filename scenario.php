@@ -1,6 +1,6 @@
 <?php
 // Pagination script cribbed from http://www.phpfreaks.com/tutorial/basic-pagination
-include_once('userroles.php');
+include_once('includes/_bootstrap.php');
 session_start();
 checkLogin('admin');
 

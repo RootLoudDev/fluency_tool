@@ -72,7 +72,7 @@ class User {
     function getScenarios(){
         // this method should only be run after a User has been created
         $results=mysql_query("SELECT scenario_id FROM user_scenarios WHERE user_id='$this->userID'");
-        while($row = mysql_fetch_row($result)){
+        while($row = mysql_fetch_row($results)){
 
             array_push($this->scenarios, $row[0]);
 
